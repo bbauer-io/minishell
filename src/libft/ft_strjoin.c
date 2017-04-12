@@ -15,14 +15,12 @@
 char	*ft_strjoin(char const *s1, char const *s2)
 {
 	char	*s3;
-	int		i;
 
 	if (!s1 || !s2)
 		return (0);
 	s3 = ft_strnew(ft_strlen((char *)s1) + ft_strlen((char *)s2) + 1);
 	if (!s3)
 		return (NULL);
-	i = 0;
 	ft_strcpy(s3, s1);
 	ft_strcpy(&s3[ft_strlen((char *)s1)], s2);
 	return (s3);

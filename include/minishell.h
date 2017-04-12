@@ -16,5 +16,7 @@
 # include "libft.h"
 # include "ft_printf.h"
 
+# define MINISHELL_RL_BUFSIZE 1024
+
 
 #endif

@@ -12,6 +12,11 @@
 
 #include "libft.h"
 
+/*
+** Copies a substring of len characters from s (+ start) to a new string and
+** returns a pointer to it.
+*/
+
 char	*ft_strsub(char const *s, unsigned int start, size_t len)
 {
 	char			*sub;

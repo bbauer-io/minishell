@@ -20,27 +20,6 @@
 */
 
 /*
-** generate_base_digit_array creates an array of chars "123456789ABCDEF"
-*/
-
-static void		generate_base_digit_array(char *arr)
-{
-	int		i;
-
-	i = 0;
-	while (i < 10)
-	{
-		arr[i] = i + '0';
-		i++;
-	}
-	while (i < 16)
-	{
-		arr[i] = i + 'A' - 10;
-		i++;
-	}
-}
-
-/*
 ** calc_indices calculates the index (in the base_digit_array) which corresponds
 ** to the character that represents the next digit in base /base/. These indices
 ** are saved to the indices array.
@@ -84,15 +63,15 @@ static char		*create_base_str(char *digits, int *indices, int i)
 
 char			*ft_itoa_base_uintmax(uintmax_t value, int base)
 {
-	char		base_digits[16];
+	char		*base_digits;
 	int			conversion_index[64];
 	int			i;
 
+	base_digits = "0123456789ABCDEF";
 	if (value == 0)
 		return (ft_strdup("0"));
 	if (base < 2 || base > 16)
 		return (NULL);
-	generate_base_digit_array(base_digits);
 	i = calc_indices(conversion_index, value, base);
 	return (create_base_str(base_digits, conversion_index, i));
 }

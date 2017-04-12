@@ -12,6 +12,11 @@
 
 #include "libft.h"
 
+/*
+** Based on strsplit, but with predefined delimiters of tab, space, & newline.
+** Splits a string into an array of words based on the specified delimiters.
+*/
+
 char	**ft_wrdsplit(char const *s)
 {
 	int		i;

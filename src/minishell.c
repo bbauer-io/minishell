@@ -12,23 +12,43 @@
 
 #include "../include/minishell.h"
 
-void	minishell_loop(void);
+void	cleanup(char *line, char **args)
+{
+	int		i;
+
+	i = 0;
+	if (line)
+		free(line);
+	while (args && args[i])
+		free(args[i++]);
+	if (args)
+		free(args);
+	return ;
+}
+
+void	minishell_loop(void)
 {
 	int		status;
 	char	*line;
 	char	**args;
 
+	args = NULL;
+	line = NULL;
 	status = 1;
 	while (status)
 	{
-		ft_putstr("$> ");
-		line = get_next_line();
-		args = minishell_split_line(line);
+		// print prompt
+		ft_putstr("===D~ ");
+		// read command from std input
+		get_next_line(0, &line);
+		// break line into a program and args
+		args = ft_strtok(line, " ");
+		// execute program
 		status = minishell_exec(args);
-
-		free(line);
-		free(args);
+		// cleanup
+		cleanup(line, args);
 	}
+	return ;
 }
 
 int		main(int argc, char **argv)

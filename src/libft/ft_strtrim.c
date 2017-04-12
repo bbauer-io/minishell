@@ -12,6 +12,11 @@
 
 #include "libft.h"
 
+/*
+** Trims leading and trailing spaces, tabs, and newlines from a given string.
+** Leaves the original string in tact, returning a pointer to a trimmed copy.
+*/
+
 char	*ft_strtrim(char const *s)
 {
 	char	*trimmed;

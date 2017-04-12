@@ -12,6 +12,11 @@
 
 #include "libft.h"
 
+/*
+** Counts the nubmer of chars before encountering the specified delimiter or
+** a null char.
+*/
+
 int		ft_wrdlen(char *str, char delimiter)
 {
 	int		i;

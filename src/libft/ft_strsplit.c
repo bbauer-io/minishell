@@ -12,6 +12,11 @@
 
 #include "libft.h"
 
+/*
+** Splits a string into an array of words based on the specified delimiter (c)
+** which would usually be specificied as ' ', but could be anything needed.
+*/
+
 char	**ft_strsplit(char const *s, char c)
 {
 	int		i;
@@ -27,7 +32,8 @@ char	**ft_strsplit(char const *s, char c)
 	{
 		while (s[i] == c)
 			i++;
-		wl[k] = (char *)malloc(sizeof(char *) * ft_wrdlen((char *)&s[i], c));
+		wl[k] =
+			(char *)malloc(sizeof(char) * (ft_wrdlen((char *)&s[i], c) + 1));
 		if (!wl[k])
 			return (NULL);
 		ft_strncpy(wl[k], &s[i], ft_wrdlen((char *)&s[i], c));

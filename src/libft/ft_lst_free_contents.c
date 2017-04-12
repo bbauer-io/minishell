@@ -12,9 +12,9 @@
 
 #include "libft.h"
 
-void	ft_lst_free_contents(void *content, size_t content_size)
+size_t	ft_lst_free_contents(void *content, size_t content_size)
 {
-	content_size = 0;
 	if (content)
 		free(content);
+	return (content_size);
 }

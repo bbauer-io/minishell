@@ -3,109 +3,58 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bbauer <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: bbauer <bbauer@student.42.us.org>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/12/12 15:55:06 by bbauer            #+#    #+#             */
-/*   Updated: 2017/01/12 13:50:01 by bbauer           ###   ########.fr       */
+/*   Created: 2017/01/04 16:30:05 by bbauer            #+#    #+#             */
+/*   Updated: 2017/04/11 15:21:26 by bbauer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
+#define LIST_STR (char*)fd_node->content
+#define NL ft_strcspn(LIST_STR, '\n')
 
-t_gnl		*find_fd_in_list(int const fd, t_gnl *list)
+static t_list	*find_fd(int fd)
 {
-	if (list)
-		while (list->fd != fd && list->next)
-			list = list->next;
-	if (list && list->fd != fd && !list->next)
+	static t_list	*master_list;
+	t_list			*tmp;
+
+	tmp = master_list;
+	while (tmp)
 	{
-		if (NULL == (list->next = (t_gnl *)malloc(sizeof(t_gnl))))
-			return (NULL);
-		list = list->next;
-		list->fd = fd;
-		list->file = NULL;
-		list->current_line = NULL;
-		list->next = NULL;
+		if (tmp->content_size == (size_t)fd)
+			return (tmp);
+		tmp = tmp->next;
 	}
-	else if (!list || (!list->next && fd != list->fd))
-	{
-		if (NULL == (list = (t_gnl *)malloc(sizeof(t_gnl))))
-			return (NULL);
-		list->fd = fd;
-		list->file = NULL;
-		list->current_line = NULL;
-		list->next = NULL;
-	}
-	return (list);
+	tmp = ft_lstnew("", 1);
+	tmp->content_size = (size_t)fd;
+	ft_lstadd(&master_list, tmp);
+	return (master_list);
 }
 
-void			null_termination_check(t_gnl *li, int length)
+int				get_next_line(const int fd, char **line)
 {
-	if (li->file[length - 1] != '\0')
-	{
-		li->file = ft_realloc(li->file, length, 1);
-		li->file[length] = '\0';
-	}
-	return ;
-}
-
-void			read_delengthenizer(t_gnl *li, int ret, char *buffer)
-{
-	li->file = ft_realloc(li->file, ft_strlen(li->file) + 1, ret);
-	ft_strcat(li->file, buffer);
-	return ;
-}
-
-int				read_file(int const fd, t_gnl *li)
-{
+	t_list	*fd_node;
 	int		ret;
-	char	buffer[BUFF_SIZE + 1];
-	int		length;
+	char	*buff;
+	char	*tmp;
 
-	length = 0;
-	ret = 1;
-	while (ret)
-	{
-		if (-1 == (ret = read(fd, buffer, BUFF_SIZE)))
-			return (-1);
-		buffer[ret] = '\0';
-		if (!li->file)
-		{
-			li->file = (char *)malloc(sizeof(char) * (ret + 1));
-			ft_strcpy(li->file, buffer);
-			li->file[ret] = '\0';
-		}
-		else if (ret)
-			read_delengthenizer(li, ret, buffer);
-		length += ret;
-	}
-	null_termination_check(li, length);
-	li->current_line = li->file;
-	return (0);
-}
-
-int				get_next_line(int const fd, char **line)
-{
-	static t_gnl		*list;
-	t_gnl				*li;
-
-	if (NULL == (li = find_fd_in_list(fd, list)))
+	buff = ft_strnew(BUFF_SIZE);
+	if (fd < 0 || line == NULL || read(fd, *line, 0) < 0)
 		return (-1);
-	if (!list)
-		list = li;
-	if (!line || fd < 0)
-		return (-1);
-	if (!(li->file))
-		if (-1 == read_file(fd, li))
-			return (-1);
-	if (li->current_line && *li->current_line == '\n')
-		li->current_line++;
-	if (li->current_line == NULL || *li->current_line == '\0')
+	fd_node = find_fd(fd);
+	while (!ft_strchr(LIST_STR, '\n') && (read(fd, buff, BUFF_SIZE)))
 	{
-		*line = NULL;
-		return (0);
+		tmp = fd_node->content;
+		fd_node->content = ft_strjoin(LIST_STR, buff);
+		free(tmp);
+		ft_bzero(buff, BUFF_SIZE + 1);
 	}
-	*line = ft_strndup(li->current_line, ft_wrdlen(li->current_line, '\n'));
-	li->current_line = ft_strchr(li->current_line, '\n');
-	return (1);
+	ret = ((LIST_STR)[NL] == '\n' || (ft_strlen(LIST_STR) > 0)) ? 1 : 0;
+	*line = ft_strsub(LIST_STR, 0, NL);
+	tmp = fd_node->content;
+	fd_node->content = ft_strsub(LIST_STR, NL + 1, ft_strlen(LIST_STR + NL));
+	free(tmp);
+	free(buff);
+	return (ret);
 }
