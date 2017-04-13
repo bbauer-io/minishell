@@ -20,6 +20,7 @@
 # include <stdint.h>
 
 # define BUFF_SIZE 1024
+# define N_ELEMS(A)  (sizeof(A) / sizeof((A)[0]))
 
 typedef struct		s_list
 {

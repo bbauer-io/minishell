@@ -12,31 +12,60 @@
 
 #include "../include/minishell.h"
 
-void	cleanup(char *line, char **args)
+static void			cleanup(char *line, char **args, char **envp)
 {
 	int		i;
 
-	i = 0;
 	if (line)
 		free(line);
-	while (args && args[i])
-		free(args[i++]);
+	i = 0;
 	if (args)
+	{
+		while (args[i])
+			free(args[i++]);
 		free(args);
+	}
+	i = 0;
+	if (envp)
+	{
+		while (envp[i])
+			free(envp[i++]);
+		free(envp);
+	}
 	return ;
 }
 
-void	minishell_loop(void)
+static t_builtin	*populate_builtin_functions(void)
 {
-	int		status;
-	char	*line;
-	char	**args;
+	t_builtin		*builtins;
 
-	args = NULL;
-	line = NULL;
+	builtins = (t_builtin *)malloc(sizeof(t_builtin) * 6);
+	builtins[0].name = "cd";
+	builtins[0].function = &minishell_cd;
+	builtins[1].name = "exit";
+	builtins[1].function = &minishell_exit;
+	builtins[2].name = "env";
+	builtins[2].function = &minishell_env;
+	builtins[3].name = "setenv";
+	builtins[3].function = &minishell_setenv;
+	builtins[4].name = "unsetenv";
+	builtins[4].function = &minishell_unsetenv;
+	builtins[5].name = "echo";
+	builtins[5].function = &minishell_echo;
+	return (builtins);
+}
+
+void				minishell_loop(t_builtin *builtins, char **envp)
+{
+	int			status;
+	char		*line;
+	char		**args;
+
 	status = 1;
 	while (status)
 	{
+		args = NULL;
+		line = NULL;
 		// print prompt
 		ft_putstr("===D~ ");
 		// read command from std input
@@ -44,15 +73,21 @@ void	minishell_loop(void)
 		// break line into a program and args
 		args = ft_strtok(line, " ");
 		// execute program
-		status = minishell_exec(args);
+		status = minishell_exec(args, builtins, envp);
 		// cleanup
-		cleanup(line, args);
+		cleanup(line, args, NULL);
 	}
+	cleanup(line, args, envp);
 	return ;
 }
 
-int		main(int argc, char **argv)
+int					main(int argc, char **argv)
 {
-	minishell_loop();
+	char		**envp;
+	t_builtin	*builtins;
+
+	envp = observe_environment();
+	builtins = populate_builtin_functions();
+	minishell_loop(builtins, envp);
 	return (EXIT_SUCCESS);
 }
