@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_putchar_fd.c                                    :+:      :+:    :+:   */
+/*   ft_print_tab.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bbauer <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -12,8 +12,16 @@
 
 #include "libft.h"
 
-void	ft_putchar_fd(char c, int fd)
+void	ft_print_tab(char **tab)
 {
-	write(fd, &c, 1);
+	if (tab)
+	{
+		while (*tab)
+		{
+			ft_putstr(*tab);
+			ft_putchar('\n');
+			tab++;
+		}
+	}
 	return ;
 }

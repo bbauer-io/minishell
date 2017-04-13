@@ -12,30 +12,40 @@
 
 #include "../include/minishell.h"
 
-int					minishell_exec(char **args, t_builtin *builtins, char **envp)
+int					minishell_builtin(char **args, char **env)
 {
-	int			i;
-	int			num_of_builtins;
-	int			is_builtin;
+	if (ft_strequ(args[1], "cd"))
+		return (minishell_cd(args, env));
+	else if (ft_strequ(args[1], "exit"))
+		return (MINISHELL_EXIT);
+	else if (ft_strequ(args[1], "env"))
+		return (minishell_env(args, env));
+	else if (ft_strequ(args[1], "setenv"))
+		return (minishell_setenv(args, env));
+	else if (ft_strequ(args[1], "unsetenv"))
+		return (minishell_unsetenv(args, env));
+	else if (ft_strequ(args[1], "echo"))
+		return (minishell_echo(args, env));
+	else
+		return (NOT_BUILTIN);
+}
+
+int					minishell_exec(char **args, char **env)
+{
+	int			status;
 
 	// If empty command was issued...
 	if (args[0] == NULL)
 		return (MINISHELL_CONTINUE);
 
 	// Check if command is a builtin function
-	i = 0;
-	num_of_builtins = N_ELEMS(builtins);
-	while (i < num_of_builtins)
-	//	if (is_builtin(argv[1]))
-	//		return (execute_builtin(argv, envp));
-		if (ft_strequ(args[1], builtins[i].name))
-			return (builtins[i].function(args, envp));
-
-	// Else fork and launch the specified program!
-	return (minishell_launcher(args, envp));
+	if ((status = minishell_builtin(args, env)) == NOT_BUILTIN)
+		return (minishell_launcher(args, env));
+	else
+		return (status);
 }
 
-int					minishell_launcher(char **args, char **envp)
+int					minishell_launcher(char **args, char **env)
 {
 	pid_t	pid;
 	pid_t	wpid;
@@ -46,7 +56,7 @@ int					minishell_launcher(char **args, char **envp)
 	{
 		// Child process
 		// CHANGE PROCESS NAME HERE -- (args[0] ???)
-		if (execve(args[0], args, envp) == -1)
+		if (execve(args[0], args, env) == -1)
 			ft_putstr_fd("minishell: execve() failed!", 2);
 		exit(EXIT_FAILURE);
 	}

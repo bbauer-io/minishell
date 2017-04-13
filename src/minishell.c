@@ -12,7 +12,7 @@
 
 #include "../include/minishell.h"
 
-static void			cleanup(char *line, char **args, char **envp)
+static void			cleanup(char *line, char **args, char **env)
 {
 	int		i;
 
@@ -26,36 +26,16 @@ static void			cleanup(char *line, char **args, char **envp)
 		free(args);
 	}
 	i = 0;
-	if (envp)
+	if (env)
 	{
-		while (envp[i])
-			free(envp[i++]);
-		free(envp);
+		while (env[i])
+			free(env[i++]);
+		free(env);
 	}
 	return ;
 }
 
-static t_builtin	*populate_builtin_functions(void)
-{
-	t_builtin		*builtins;
-
-	builtins = (t_builtin *)malloc(sizeof(t_builtin) * 6);
-	builtins[0].name = "cd";
-	builtins[0].function = &minishell_cd;
-	builtins[1].name = "exit";
-	builtins[1].function = &minishell_exit;
-	builtins[2].name = "env";
-	builtins[2].function = &minishell_env;
-	builtins[3].name = "setenv";
-	builtins[3].function = &minishell_setenv;
-	builtins[4].name = "unsetenv";
-	builtins[4].function = &minishell_unsetenv;
-	builtins[5].name = "echo";
-	builtins[5].function = &minishell_echo;
-	return (builtins);
-}
-
-void				minishell_loop(t_builtin *builtins, char **envp)
+void				minishell_loop(char **env)
 {
 	int			status;
 	char		*line;
@@ -73,21 +53,19 @@ void				minishell_loop(t_builtin *builtins, char **envp)
 		// break line into a program and args
 		args = ft_strtok(line, " ");
 		// execute program
-		status = minishell_exec(args, builtins, envp);
+		status = minishell_exec(args, env);
 		// cleanup
 		cleanup(line, args, NULL);
 	}
-	cleanup(line, args, envp);
+	cleanup(line, args, env);
 	return ;
 }
 
-int					main(int argc, char **argv)
+int					main(int argc, char **argv, char **envp)
 {
-	char		**envp;
-	t_builtin	*builtins;
+	char		**env;
 
-	envp = observe_environment();
-	builtins = populate_builtin_functions();
-	minishell_loop(builtins, envp);
+	env = ft_tab_dup(envp);
+	minishell_loop(env);
 	return (EXIT_SUCCESS);
 }
