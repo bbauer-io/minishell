@@ -142,6 +142,7 @@ int					ft_memcmp(void const *s1, void const *s2, size_t n);
 void				*ft_realloc(void *ptr, size_t size_original,
 						size_t size_add);
 char				**ft_tab_dup(char **tab);
+void				ft_tab_del(char ***tab);
 
 /*
 ** Special purpose

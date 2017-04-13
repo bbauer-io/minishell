@@ -35,7 +35,7 @@ int					minishell_exec(char **args, char **env)
 	int			status;
 
 	// If empty command was issued...
-	if (args[0] == NULL)
+	if (args[0] == NULL || *(args[0]) == '\0')
 		return (MINISHELL_CONTINUE);
 
 	// Check if command is a builtin function

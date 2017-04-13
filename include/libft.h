@@ -20,7 +20,7 @@
 # include <stdint.h>
 
 # define BUFF_SIZE 1024
-# define N_ELEMS(A)  (sizeof(A) / sizeof((A)[0]))
+# define N_ELEMS(A) (sizeof(A) / sizeof((A)[0])
 
 typedef struct		s_list
 {
@@ -28,6 +28,8 @@ typedef struct		s_list
 	size_t			content_size;
 	struct s_list	*next;
 }					t_list;
+
+typedef char		t_utf8;
 
 /*
 ** wchar/utf-8 related functions
@@ -139,6 +141,8 @@ void				*ft_memchr(void const *s, int c, size_t n);
 int					ft_memcmp(void const *s1, void const *s2, size_t n);
 void				*ft_realloc(void *ptr, size_t size_original,
 						size_t size_add);
+char				**ft_tab_dup(char **tab);
+void				ft_tab_del(char ***tab);
 
 /*
 ** Special purpose
@@ -158,6 +162,7 @@ void				ft_putendl(char const *s);
 void				ft_putendl_fd(char const *s, int fd);
 void				ft_putnbr(int n);
 void				ft_putnbr_fd(int n, int fd);
+void				ft_print_tab(char **tab);
 
 /*
 ** Linked list functions

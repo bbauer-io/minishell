@@ -12,26 +12,11 @@
 
 #include "../include/minishell.h"
 
-static void			cleanup(char *line, char **args, char **env)
+static void			cleanup(char *line, char ***args, char ***env)
 {
-	int		i;
-
-	if (line)
-		free(line);
-	i = 0;
-	if (args)
-	{
-		while (args[i])
-			free(args[i++]);
-		free(args);
-	}
-	i = 0;
-	if (env)
-	{
-		while (env[i])
-			free(env[i++]);
-		free(env);
-	}
+	ft_strdel(&line);
+	ft_tab_del(args);
+	ft_tab_del(env);
 	return ;
 }
 
@@ -55,9 +40,9 @@ void				minishell_loop(char **env)
 		// execute program
 		status = minishell_exec(args, env);
 		// cleanup
-		cleanup(line, args, NULL);
+		cleanup(line, &args, NULL);
 	}
-	cleanup(line, args, env);
+	cleanup(line, &args, &env);
 	return ;
 }
 

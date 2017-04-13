@@ -1,27 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   ft_tab_del.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bbauer <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/03/21 18:44:48 by bbauer            #+#    #+#             */
-/*   Updated: 2017/03/21 18:44:48 by bbauer           ###   ########.fr       */
+/*   Created: 2016/04/13 13:16:57 by bbauer            #+#    #+#             */
+/*   Updated: 2016/04/13 13:19:39 by bbauer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
+#include "libft.h"
 
-# include "libft.h"
-# include "ft_printf.h"
+void		ft_tab_del(char ***tab)
+{
+	int		i;
 
-# define MINISHELL_EXIT 0
-# define MINISHELL_CONTINUE 1
-# define NOT_BUILTIN 2
-
-void				minishell_loop(char **env);
-int					minishell_exec(char **args, char **env);
-int					minishell_launcher(char **args, char **env);
-
-#endif
+	i = 0;
+	if (tab && *tab)
+	{
+		while ((*tab)[i])
+			ft_strdel(&(*tab)[i++]);
+		free(*tab);
+	}
+	return ;
+}
