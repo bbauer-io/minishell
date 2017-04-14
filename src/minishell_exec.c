@@ -15,17 +15,17 @@
 int					minishell_builtin(char **args, char **env)
 {
 	if (ft_strequ(args[1], "cd"))
-		return (minishell_cd(args, env));
+		return (builtin_cd(args, env));
 	else if (ft_strequ(args[1], "exit"))
 		return (MINISHELL_EXIT);
 	else if (ft_strequ(args[1], "env"))
-		return (minishell_env(args, env));
+		return (builtin_env(args, env));
 	else if (ft_strequ(args[1], "setenv"))
-		return (minishell_setenv(args, env));
+		return (builtin_setenv(args, env));
 	else if (ft_strequ(args[1], "unsetenv"))
-		return (minishell_unsetenv(args, env));
+		return (builtin_unsetenv(args, env));
 	else if (ft_strequ(args[1], "echo"))
-		return (minishell_echo(args, env));
+		return (builtin_echo(args, env));
 	else
 		return (NOT_BUILTIN);
 }

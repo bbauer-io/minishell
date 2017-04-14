@@ -12,9 +12,10 @@
 
 #include "../include/minishell.h"
 
-static void			cleanup(char *line, char ***args, char ***env)
+static void			cleanup(char **line, char ***com, char ***args, char ***env)
 {
-	ft_strdel(&line);
+	ft_strdel(line);
+	ft_tab_del(com);
 	ft_tab_del(args);
 	ft_tab_del(env);
 	return ;
@@ -25,24 +26,33 @@ void				minishell_loop(char **env)
 	int			status;
 	char		*line;
 	char		**args;
+	char		**commands;
 
 	status = 1;
 	while (status)
 	{
+		commands = NULL;
 		args = NULL;
 		line = NULL;
 		// print prompt
 		ft_putstr("===D~ ");
 		// read command from std input
 		get_next_line(0, &line);
-		// break line into a program and args
-		args = ft_strtok(line, " ");
-		// execute program
-		status = minishell_exec(args, env);
-		// cleanup
-		cleanup(line, &args, NULL);
+		// expand_shell_vars(&line);
+		// split line into multiple commands seperated by a semicolon
+		commands = ft_strtok(line, ";");
+		while (commands != NULL)
+		{
+			// break command into a program and args - not sure about that * syntax
+			args = ft_strtok(*(commands++), " ");
+			// execute program
+			status = minishell_exec(args, env);
+			// cleanup
+			cleanup(NULL, NULL, &args, NULL);
+		}
+		cleanup(&line, &commands, &args, NULL);
 	}
-	cleanup(line, &args, &env);
+	cleanup(NULL, NULL, NULL, &env);
 	return ;
 }
 
