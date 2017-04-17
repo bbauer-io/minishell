@@ -87,6 +87,18 @@ char				*ft_toupper_str(char *str);
 char				**ft_wrdsplit(char const *s);
 
 /*
+** Functions for working with tables (char ** arrays)
+*/
+
+char		**ft_tab_add_one(char **src_tab, char *new_item);
+void				ft_tab_cat(char **dst, char **src);
+void				ft_tab_del(char ***tab);
+char				**ft_tab_dup(char **tab);
+void				ft_tab_ncat(char **dst, char **src, size_t n);
+char				**ft_tab_new(size_t tab_len);
+char				**ft_tab_rem_one(char **src, size_t rem);
+
+/*
 ** String tests
 */
 
@@ -142,8 +154,6 @@ void				*ft_memchr(void const *s, int c, size_t n);
 int					ft_memcmp(void const *s1, void const *s2, size_t n);
 void				*ft_realloc(void *ptr, size_t size_original,
 						size_t size_add);
-char				**ft_tab_dup(char **tab);
-void				ft_tab_del(char ***tab);
 
 /*
 ** Special purpose

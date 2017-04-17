@@ -46,7 +46,7 @@ void				minishell_loop(char **env)
 			// break command into a program and args - not sure about that * syntax
 			args = ft_strtok(*(commands++), " ");
 			// execute program
-			status = minishell_exec(args, env);
+			status = minishell_launcher(args, env);
 			// cleanup
 			cleanup(NULL, NULL, &args, NULL);
 		}

@@ -39,4 +39,11 @@ int					builtin_env(char **args, char **env);
 int					builtin_setenv(char **args, char **env);
 int					builtin_unsetenv(char **args, char **env);
 
+/*
+** Helpers for env functions
+*/
+
+void				find_and_remove_env(char *key, char ***env);
+void				add_to_env(char *keyvalpair, char ***env);
+
 #endif
