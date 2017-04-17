@@ -38,11 +38,11 @@ void				minishell_loop(char **env)
 		ft_putstr("===D~ ");
 		// read command from std input
 		get_next_line(0, &line);
-		// expand_shell_vars(&line);
 		// split line into multiple commands seperated by a semicolon
 		commands = ft_strtok(line, ";");
 		while (commands != NULL)
 		{
+			*commands = expand_shell_vars(*commands, env);
 			// break command into a program and args - not sure about that * syntax
 			args = ft_strtok(*(commands++), " ");
 			// execute program

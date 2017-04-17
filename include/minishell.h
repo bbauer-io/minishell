@@ -27,6 +27,7 @@
 void				minishell_loop(char **env);
 int					minishell_exec(char **args, char **env);
 int					minishell_launcher(char **args, char **env);
+char				*expand_shell_vars(char *str, char **env);
 
 /*
 ** Built-in programs for minishell
