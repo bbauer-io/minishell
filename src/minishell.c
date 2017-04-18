@@ -12,12 +12,16 @@
 
 #include "../include/minishell.h"
 
-static void			cleanup(char **line, char ***com, char ***args, char ***env)
+void				cleanup(char **line, char ***com, char ***args, char ***env)
 {
-	ft_strdel(line);
-	ft_tab_del(com);
-	ft_tab_del(args);
-	ft_tab_del(env);
+	if (line)
+		ft_strdel(line);
+	if (com)
+		ft_tab_del(com);
+	if (args)
+		ft_tab_del(args);
+	if (env)
+		ft_tab_del(env);
 	return ;
 }
 

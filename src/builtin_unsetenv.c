@@ -12,4 +12,16 @@
 
 #include "../include/minishell.h"
 
+/*
+** Deletes a stored environment variable
+*/
 
+int			builtin_unsetenv(char **args, char **env)
+{
+	int		i;
+
+	i = 0;
+	while (args[++i])
+		find_and_remove_env(args[i], &env);
+	return (MINISHELL_CONTINUE);
+}
