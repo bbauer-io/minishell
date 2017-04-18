@@ -12,9 +12,28 @@
 
 #include "../include/minishell.h"
 
-char		*lookup_env_value(char *key, char **env)
+int			is_valid_env_var(char *str)
 {
+	int		i;
+	int		has_value;
 
+	i = 0;
+	has_value = 0;
+	if (!str || !ft_isalpha(str[i++]) || !(str[0] == '_'))
+		return (0);
+	while (ft_isalnum(str[i]) || str[i] == '_')
+		i++;
+	if (str[i++] != '=')
+		return (0);
+	while (ft_isalnum(str[i]) || str[i] == '_')
+	{
+		i++;
+		has_value = 1;
+	}
+	if (has_value && str[i] == '\0')
+		return (1);
+	else
+		return (0);
 }
 
 void		find_and_remove_env(char *key, char ***env)

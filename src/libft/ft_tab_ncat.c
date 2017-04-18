@@ -22,7 +22,7 @@
 
 void		ft_tab_ncat(char **dst, char **src, size_t n)
 {
-	int		i;
+	size_t		i;
 
 	i = 0;
 	if (!dst || !src)

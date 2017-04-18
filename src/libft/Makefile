@@ -31,7 +31,7 @@ SRC = ft_atoi.c ft_bzero.c ft_isalnum.c ft_isalpha.c ft_isascii.c ft_isdigit.c \
 	  ft_wrdsplit.c ft_wstrcpy.c ft_wstrdup.c ft_wstrlen.c ft_wstrndup.c \
 	  ft_wstrnsize_utf8.c ft_wstrsize_utf8.c get_next_line.c ft_strtok.c \
 	  ft_strcdup.c ft_tab_add_one.c ft_tab_cat.c ft_tab_del.c ft_tab_dup.c \
-	  ft_tab_ncat.c ft_tab_new.c ft_tab_rem_one.c
+	  ft_tab_ncat.c ft_tab_new.c ft_tab_rem_one.c ft_print_tab.c
 
 OPT = $(SRC:.c=.o)
 HEADER = ./libft.h

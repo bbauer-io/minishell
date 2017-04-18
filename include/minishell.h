@@ -44,8 +44,9 @@ int				builtin_unsetenv(char **args, char **env);
 ** Helpers for env functions
 */
 
-void			find_and_remove_env(char *key, char ***env);
 void			add_to_env(char *keyvalpair, char ***env);
-char			*lookup_env_value(char *key, char **env);
+void			find_and_remove_env(char *key, char ***env);
+int				is_valid_env_var(char *str);
+//char			*lookup_env_value(char *key, char **env);
 
 #endif
