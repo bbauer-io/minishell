@@ -25,7 +25,7 @@ int					minishell_builtin(char **args, char ***env)
 	else if (ft_strequ(args[1], "unsetenv "))
 		return (builtin_unsetenv(args, env));
 	else if (ft_strequ(args[1], "echo "))
-		return (builtin_echo(args, env));
+		return (builtin_echo(args));
 	else
 		return (NOT_BUILTIN);
 }

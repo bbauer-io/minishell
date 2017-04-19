@@ -14,6 +14,7 @@
 
 int			builtin_cd(char **args, char ***env)
 {
-	chdir(args[1]);
+	if (env)
+		chdir(args[1]);
 	return (MINISHELL_CONTINUE);
 }

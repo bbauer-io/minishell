@@ -46,7 +46,7 @@ void				minishell_loop(char **env)
 		commands = ft_strtok(line, ";");
 		while (commands != NULL)
 		{
-			*commands = expand_shell_vars(*commands, &env);
+			*commands = expand_shell_vars(*commands, env);
 			// break command into a program and args - not sure about that * syntax
 			args = ft_strtok(*(commands++), " ");
 			// execute program
@@ -63,6 +63,9 @@ void				minishell_loop(char **env)
 int					main(int argc, char **argv, char **envp)
 {
 	char		**env;
+
+	if (argc && argv)
+		argc++;
 
 	env = ft_tab_dup(envp);
 	minishell_loop(env);

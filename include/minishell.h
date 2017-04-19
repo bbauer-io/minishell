@@ -34,7 +34,7 @@ void			cleanup(char **line, char ***com, char ***args, char ***env);
 ** Built-in programs for minishell
 */
 
-int				builtin_echo(char **args, char ***env);
+int				builtin_echo(char **args);
 int				builtin_cd(char **args, char ***env);
 int				builtin_env(char **args, char ***env);
 int				builtin_setenv(char **args, char ***env);

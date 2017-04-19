@@ -43,7 +43,7 @@ void		find_and_remove_env(char *key, char ***env)
 	char	**new_env;
 
 	tab_len = 0;
-	while ((*env)[i++])
+	while ((*env)[tab_len])
 		tab_len++;
 	i = 0;
 	while ((*env)[i])

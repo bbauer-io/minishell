@@ -54,16 +54,17 @@ char		**build_new_args(char **args)
 }
 
 /*
-** The "env -i" command launches a program without an environment defined only
+** The "env -i" command launches a program with an environment defined only
 ** by key=value pairs immediately following the -i. The first argument after the
 ** last valid key=value pair is assumed to be the program to launch.
 */
 
-int			env_i(char **args, char **env)
+int			env_i(char **args)
 {
 	char	**tmp_env;
 	char	**tmp_args;
 	int		status;
+	int		i;
 
 	if (!args[2] || !is_valid_env_var(args[2]))
 	{
@@ -71,7 +72,12 @@ int			env_i(char **args, char **env)
 		return (MINISHELL_CONTINUE);
 	}
 	tmp_env = build_new_env(&args[2]);
-	tmp_args = build_new_args(&args[2]);
+	i = 2;
+	while (is_valid_env_var(args[i]))
+		i++;
+	if (args[i] && args[i + 1])
+		i++;
+	tmp_args = build_new_args(&args[i]);
 	status = minishell_launcher(tmp_args, &tmp_env);
 	cleanup(NULL, NULL, &tmp_args, &tmp_env);
 	return (status);
@@ -108,14 +114,12 @@ int			env_u(char **args, char **env)
 
 int			builtin_env(char **args, char ***env)
 {
-	char	**tmp_env;
-	char	**tmp_args;
 	int		status;
 
 	if (args[1][0] == '-' && args[1][1] == 'u')
 		status = env_u(args, *env);
 	else if (args[1][0] == '-' && args[1][1] == 'i' && args[2])
-		status = env_i(args, *env);
+		status = env_i(args);
 	else if (env && *env && **env)
 		ft_print_tab(*env);
 	else

@@ -17,6 +17,7 @@ static char		*matches_env_var(char *var, int vlen, char **env)
 	int		i;
 	char	*match_value;
 
+	i = 0;
 	match_value = NULL;
 	while (env[i++])
 		if (ft_strequ(env[i], var) && env[i][vlen] == '=')

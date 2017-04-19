@@ -18,7 +18,7 @@
 ** key=value string.
 */
 
-int			builtin_setenv(char **args, char **env)
+int			builtin_setenv(char **args, char ***env)
 {
 	int		i;
 	int		k;
@@ -31,8 +31,8 @@ int			builtin_setenv(char **args, char **env)
 	{
 		k = 0;
 		key = ft_strcdup(args[i], '=');
-		find_and_remove_env(key, &env);
-		add_to_env(args[i], &env);
+		find_and_remove_env(key, env);
+		add_to_env(args[i], env);
 		free(key);
 		i++;
 	}
