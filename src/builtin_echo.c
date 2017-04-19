@@ -12,7 +12,7 @@
 
 #include "../include/minishell.h"
 
-int				builtin_echo(char **args, char **env)
+int				builtin_echo(char **args, char ***env)
 {
 	ft_print_tab(&args[1]);
 	return (MINISHELL_CONTINUE);

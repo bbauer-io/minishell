@@ -12,7 +12,7 @@
 
 #include "../include/minishell.h"
 
-int			builtin_cd(char **args, char **env)
+int			builtin_cd(char **args, char ***env)
 {
 	chdir(args[1]);
 	return (MINISHELL_CONTINUE);

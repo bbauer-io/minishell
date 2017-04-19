@@ -12,7 +12,7 @@
 
 #include "../include/minishell.h"
 
-int					minishell_builtin(char **args, char **env)
+int					minishell_builtin(char **args, char ***env)
 {
 	if (ft_strequ(args[1], "cd "))
 		return (builtin_cd(args, env));
@@ -30,14 +30,13 @@ int					minishell_builtin(char **args, char **env)
 		return (NOT_BUILTIN);
 }
 
-int					minishell_launcher(char **args, char **env)
+int					minishell_launcher(char **args, char ***env)
 {
 	int			status;
 
 	// If empty command was issued...
 	if (args[0] == NULL || *(args[0]) == '\0')
 		return (MINISHELL_CONTINUE);
-
 	// Check if command is a builtin function
 	if ((status = minishell_builtin(args, env)) == NOT_BUILTIN)
 		return (minishell_exec(args, env));
@@ -45,7 +44,7 @@ int					minishell_launcher(char **args, char **env)
 		return (status);
 }
 
-int					minishell_exec(char **args, char **env)
+int					minishell_exec(char **args, char ***env)
 {
 	pid_t	pid;
 	pid_t	wpid;
@@ -56,7 +55,7 @@ int					minishell_exec(char **args, char **env)
 	{
 		// Child process
 		// CHANGE PROCESS NAME HERE? -- (args[0] ???)
-		if (execve(args[0], args, env) == -1)
+		if (execve(args[0], args, *env) == -1)
 			ft_putstr_fd("minishell: execve() failed!", 2);
 		exit(EXIT_FAILURE);
 	}

@@ -12,7 +12,13 @@
 
 #include "../include/minishell.h"
 
-char		**build_new_env(char **args, char **env)
+/*
+** Creates a new environment table from the consecutive valid key-value pairs
+** at the beginning of **args (i pass this function args[2] so it can start
+** at the beginning of the list here.
+*/
+
+char		**build_new_env(char **args)
 {
 	int		i;
 	int		len;
@@ -32,6 +38,11 @@ char		**build_new_env(char **args, char **env)
 	return (new_env);
 }
 
+/*
+** Used to create a new table of args to use when launching a program from env
+** (so that it will not include the env command and its options)
+*/
+
 char		**build_new_args(char **args)
 {
 	char	**new_args;
@@ -42,6 +53,12 @@ char		**build_new_args(char **args)
 	return (args);
 }
 
+/*
+** The "env -i" command launches a program without an environment defined only
+** by key=value pairs immediately following the -i. The first argument after the
+** last valid key=value pair is assumed to be the program to launch.
+*/
+
 int			env_i(char **args, char **env)
 {
 	char	**tmp_env;
@@ -50,15 +67,21 @@ int			env_i(char **args, char **env)
 
 	if (!args[2] || !is_valid_env_var(args[2]))
 	{
-		ft_putstr_fd("usage: env -i var1=new_var ...", 2);
+		ft_putstr_fd("usage: env -i var1=launch_only_with_this_var ...", 2);
 		return (MINISHELL_CONTINUE);
 	}
-	tmp_env = build_new_env(&args[2], env);
+	tmp_env = build_new_env(&args[2]);
 	tmp_args = build_new_args(&args[2]);
-	status = minishell_launcher(tmp_args, tmp_env);
+	status = minishell_launcher(tmp_args, &tmp_env);
 	cleanup(NULL, NULL, &tmp_args, &tmp_env);
 	return (status);
 }
+
+/*
+** The "env -u" command launches a program with the normal environment, but
+** without the keys that hte user specifies after -u. Keys must not contain the
+** '=' character.
+*/
 
 int			env_u(char **args, char **env)
 {
@@ -74,24 +97,28 @@ int			env_u(char **args, char **env)
 	tmp_env = ft_tab_dup(env);
 	find_and_remove_env(args[2], &tmp_env);
 	tmp_args = ft_tab_dup(&args[2]);
-	status = minishell_launcher(tmp_args, tmp_env);
+	status = minishell_launcher(tmp_args, &tmp_env);
 	cleanup(NULL, NULL, &tmp_args, &tmp_env);
 	return (status);
 }
 
-int			builtin_env(char **args, char **env)
+/*
+** For launching programs with a modified environment.
+*/
+
+int			builtin_env(char **args, char ***env)
 {
 	char	**tmp_env;
 	char	**tmp_args;
 	int		status;
 
 	if (args[1][0] == '-' && args[1][1] == 'u')
-		status = env_u(args, env);
+		status = env_u(args, *env);
 	else if (args[1][0] == '-' && args[1][1] == 'i' && args[2])
-		status = env_i(args, env);
-	else if (env && *env)
-		ft_print_tab(env);
+		status = env_i(args, *env);
+	else if (env && *env && **env)
+		ft_print_tab(*env);
 	else
-		ft_putstr_fd("no environment defined\n", 2);
+		ft_putstr_fd("no environment found! where am i!? heeeeeellp!\n", 2);
 	return (MINISHELL_CONTINUE);
 }

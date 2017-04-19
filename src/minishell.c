@@ -46,11 +46,11 @@ void				minishell_loop(char **env)
 		commands = ft_strtok(line, ";");
 		while (commands != NULL)
 		{
-			*commands = expand_shell_vars(*commands, env);
+			*commands = expand_shell_vars(*commands, &env);
 			// break command into a program and args - not sure about that * syntax
 			args = ft_strtok(*(commands++), " ");
 			// execute program
-			status = minishell_launcher(args, env);
+			status = minishell_launcher(args, &env);
 			// cleanup
 			cleanup(NULL, NULL, &args, NULL);
 		}
