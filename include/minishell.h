@@ -25,8 +25,8 @@
 */
 
 void			minishell_loop(char **env);
-int				minishell_exec(char **args, char **env);
-int				minishell_launcher(char **args, char **env);
+int				minishell_exec(char **args, char ***env);
+int				minishell_launcher(char **args, char ***env);
 char			*expand_shell_vars(char *str, char **env);
 void			cleanup(char **line, char ***com, char ***args, char ***env);
 
@@ -34,11 +34,11 @@ void			cleanup(char **line, char ***com, char ***args, char ***env);
 ** Built-in programs for minishell
 */
 
-int				builtin_echo(char **args, char **env);
-int				builtin_cd(char **args, char **env);
-int				builtin_env(char **args, char **env);
-int				builtin_setenv(char **args, char **env);
-int				builtin_unsetenv(char **args, char **env);
+int				builtin_echo(char **args, char ***env);
+int				builtin_cd(char **args, char ***env);
+int				builtin_env(char **args, char ***env);
+int				builtin_setenv(char **args, char ***env);
+int				builtin_unsetenv(char **args, char ***env);
 
 /*
 ** Helpers for env functions
