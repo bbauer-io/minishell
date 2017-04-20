@@ -1,32 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_tab_del.c                                       :+:      :+:    :+:   */
+/*   builtin_db.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bbauer <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/04/13 13:16:57 by bbauer            #+#    #+#             */
-/*   Updated: 2016/04/13 13:19:39 by bbauer           ###   ########.fr       */
+/*   Created: 2017/04/13 18:44:49 by bbauer            #+#    #+#             */
+/*   Updated: 2017/04/13 19:23:45 by bbauer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../include/minishell.h"
 
-/*
-** Erases and frees a table of strings, then sets the table's pointer to NULL.
-*/
-
-void		ft_tab_del(char ***tab)
+int		builtin_db(void)
 {
-	int		i;
-
-	i = 0;
-	if (tab && *tab)
-	{
-		while ((*tab)[i])
-			ft_strdel(&(*tab)[i++]);
-		free(*tab);
-		*tab = NULL;
-	}
-	return ;
+	ft_putstr_fd("\n __ \n/   \\\n|o o|\n| > |\n|__/|  /\\\n|   |_ ||", 2);
+	ft_putstr_fd("\n|   | \\||\n|  J   )_)\n \\____/\n    |\n  =\'\n", 2);
+	return (MINISHELL_CONTINUE);
 }

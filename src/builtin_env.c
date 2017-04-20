@@ -68,7 +68,7 @@ int			env_i(char **args)
 
 	if (!args[2] || !is_valid_env_var(args[2]))
 	{
-		ft_putstr_fd("usage: env -i var1=launch_only_with_this_var ...", 2);
+		ft_putstr_fd("usage: env -i var1=launch_only_with_this_var ...\n", 2);
 		return (MINISHELL_CONTINUE);
 	}
 	tmp_env = build_new_env(&args[2]);
@@ -97,7 +97,7 @@ int			env_u(char **args, char **env)
 
 	if (!args[2] || !is_valid_env_var(args[2]))
 	{
-		ft_putstr_fd("usage: env -u env-var-to-omit ...", 2);
+		ft_putstr_fd("usage: env -u env-var-to-omit ...\n", 2);
 		return (MINISHELL_CONTINUE);
 	}
 	tmp_env = ft_tab_dup(env);
@@ -115,10 +115,10 @@ int			env_u(char **args, char **env)
 int			builtin_env(char **args, char ***env)
 {
 	int		status;
-
-	if (args[1][0] == '-' && args[1][1] == 'u')
+	
+	if (args[1] && args[1][0] == '-' && args[1][1] == 'u')
 		status = env_u(args, *env);
-	else if (args[1][0] == '-' && args[1][1] == 'i' && args[2])
+	else if (args[1] && args[1][0] == '-' && args[1][1] == 'i' && args[2])
 		status = env_i(args);
 	else if (env && *env && **env)
 		ft_print_tab(*env);

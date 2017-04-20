@@ -14,18 +14,20 @@
 
 int					minishell_builtin(char **args, char ***env)
 {
-	if (ft_strequ(args[1], "cd "))
+	if (ft_strequ(args[0], "cd") && args[0][3] == '\0')
 		return (builtin_cd(args, env));
-	else if (ft_strequ(args[1], "exit "))
+	else if (ft_strequ(args[0], "exit") && args[0][5] == '\0')
 		return (MINISHELL_EXIT);
-	else if (ft_strequ(args[1], "env "))
+	else if (ft_strequ(args[0], "env") && args[0][4] == '\0')
 		return (builtin_env(args, env));
-	else if (ft_strequ(args[1], "setenv "))
+	else if (ft_strequ(args[0], "setenv") && args[0][7] == '\0')
 		return (builtin_setenv(args, env));
-	else if (ft_strequ(args[1], "unsetenv "))
+	else if (ft_strequ(args[0], "unsetenv") && args[0][9] == '\0')
 		return (builtin_unsetenv(args, env));
-	else if (ft_strequ(args[1], "echo "))
+	else if (ft_strequ(args[0], "echo") && args[0][5] == '\0')
 		return (builtin_echo(args));
+	else if (ft_strequ(args[0], "dickbutt") && args[0][9] == '\0')
+		return (builtin_db());
 	else
 		return (NOT_BUILTIN);
 }

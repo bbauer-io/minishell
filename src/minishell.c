@@ -16,12 +16,16 @@ void				cleanup(char **line, char ***com, char ***args, char ***env)
 {
 	if (line)
 		ft_strdel(line);
+	line = NULL;
 	if (com)
 		ft_tab_del(com);
+	com = NULL;
 	if (args)
 		ft_tab_del(args);
+	args = NULL;
 	if (env)
 		ft_tab_del(env);
+	env = NULL;
 	return ;
 }
 
@@ -31,9 +35,10 @@ void				minishell_loop(char **env)
 	char		*line;
 	char		**args;
 	char		**commands;
+	char		**commands_begin;
 
-	status = 1;
-	while (status)
+	status = MINISHELL_CONTINUE;
+	while (status != MINISHELL_EXIT)
 	{
 		commands = NULL;
 		args = NULL;
@@ -44,9 +49,10 @@ void				minishell_loop(char **env)
 		get_next_line(0, &line);
 		// split line into multiple commands seperated by a semicolon
 		commands = ft_strtok(line, ";");
-		while (commands != NULL)
+		while (status != MINISHELL_EXIT && commands && *commands)
 		{
 			*commands = expand_shell_vars(*commands, env);
+			commands_begin = commands;
 			// break command into a program and args - not sure about that * syntax
 			args = ft_strtok(*(commands++), " ");
 			// execute program
@@ -54,7 +60,7 @@ void				minishell_loop(char **env)
 			// cleanup
 			cleanup(NULL, NULL, &args, NULL);
 		}
-		cleanup(&line, &commands, &args, NULL);
+		cleanup(&line, &commands_begin, &args, NULL);
 	}
 	cleanup(NULL, NULL, NULL, &env);
 	return ;

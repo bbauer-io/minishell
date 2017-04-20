@@ -78,7 +78,7 @@ char	**ft_strtok(char *str, char *sep)
 			return (NULL);
 		ft_strncpy(tok[k], &str[i], tok_len);
 		tok[k][tok_len] = '\0';
-		while (!ft_is_sep(str[i], sep))
+		while (str[i] && !ft_is_sep(str[i], sep))
 			i++;
 		k++;
 	}

@@ -48,7 +48,6 @@ static char		*expand_individual_var(char *str, char **env, int i)
 		free(match);
 	}
 	ft_strcat(expanded, &str[i + vlen]);
-	free(str);
 	return (expanded);
 }
 
@@ -58,9 +57,13 @@ char			*expand_shell_vars(char *str, char **env)
 	char	*expanded;
 
 	i = 0;
-	expanded = NULL;
+	expanded = str;
 	while (str[i++] != '\0')
 		if (str[i] == '$' && ft_isalnum(str[i + 1]))
+		{
 			str = expand_individual_var(str, env, i);
+			free(expanded);
+			expanded = str;
+		}
 	return (expanded);
 }
