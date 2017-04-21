@@ -35,6 +35,7 @@ char		**build_new_env(char **args)
 		new_env[i] = ft_strdup(args[i]);
 		i++;
 	}
+	new_env[i] = NULL;
 	return (new_env);
 }
 

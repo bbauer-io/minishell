@@ -18,10 +18,14 @@ static char		*matches_env_var(char *var, int vlen, char **env)
 	char	*match_value;
 
 	i = 0;
+	vlen--;
 	match_value = NULL;
-	while (env[i++])
-		if (ft_strequ(env[i], var) && env[i][vlen] == '=')
+	while (env[i] && !match_value)
+	{
+		if (ft_strpartequ(var, env[i]) && env[i][vlen] == '=')
 			match_value = ft_strdup(&env[i][vlen + 1]);
+		i++;
+	}
 	free(var);
 	return (match_value);
 }
@@ -33,7 +37,7 @@ static char		*expand_individual_var(char *str, char **env, int i)
 	char	*expanded;
 	char	*match;
 
-	vlen = i;
+	vlen = i + 1;
 	match = NULL;
 	while (ft_isalnum(str[vlen]))
 		vlen++;

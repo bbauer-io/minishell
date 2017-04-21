@@ -14,19 +14,19 @@
 
 int					minishell_builtin(char **args, char ***env)
 {
-	if (ft_strequ(args[0], "cd") && args[0][3] == '\0')
+	if (ft_strequ(args[0], "cd"))
 		return (builtin_cd(args, env));
-	else if (ft_strequ(args[0], "exit") && args[0][5] == '\0')
+	else if (ft_strequ(args[0], "exit"))
 		return (MINISHELL_EXIT);
-	else if (ft_strequ(args[0], "env") && args[0][4] == '\0')
+	else if (ft_strequ(args[0], "env"))
 		return (builtin_env(args, env));
-	else if (ft_strequ(args[0], "setenv") && args[0][7] == '\0')
+	else if (ft_strequ(args[0], "setenv"))
 		return (builtin_setenv(args, env));
-	else if (ft_strequ(args[0], "unsetenv") && args[0][9] == '\0')
+	else if (ft_strequ(args[0], "unsetenv"))
 		return (builtin_unsetenv(args, env));
-	else if (ft_strequ(args[0], "echo") && args[0][5] == '\0')
+	else if (ft_strequ(args[0], "echo"))
 		return (builtin_echo(args));
-	else if (ft_strequ(args[0], "dickbutt") && args[0][9] == '\0')
+	else if (ft_strequ(args[0], "dickbutt"))
 		return (builtin_db());
 	else
 		return (NOT_BUILTIN);
@@ -58,11 +58,11 @@ int					minishell_exec(char **args, char ***env)
 		// Child process
 		// CHANGE PROCESS NAME HERE? -- (args[0] ???)
 		if (execve(args[0], args, *env) == -1)
-			ft_putstr_fd("minishell: execve() failed!", 2);
+			ft_putstr_fd("minishell: execve() failed!\n", 2);
 		exit(EXIT_FAILURE);
 	}
 	else if (pid < 0)
-		ft_putstr_fd("minishell: fork() error!", 2);
+		ft_putstr_fd("minishell: fork() error!\n", 2);
 	else
 	{
 		// Parent process
