@@ -26,7 +26,7 @@ static char		*matches_env_var(char *var, int vlen, char **env)
 			match_value = ft_strdup(&env[i][vlen + 1]);
 		i++;
 	}
-	free(var);
+	ft_strdel(&var);
 	return (match_value);
 }
 
@@ -42,14 +42,15 @@ static char		*expand_individual_var(char *str, char **env, int i)
 	while (ft_isalnum(str[vlen]))
 		vlen++;
 	vlen = vlen - i;
-	match = matches_env_var(ft_strndup(&str[i + 1], vlen), vlen, env);
+	match = matches_env_var(ft_strndup(&str[i + 1], vlen - 1), vlen, env);
 	elen = ft_strlen(str) - vlen + (match ? ft_strlen(match) : 0);
-	expanded = (char *)malloc(sizeof(char) * (elen + 1));
+	expanded = ft_strnew(elen + 1);
 	ft_strncpy(expanded, str, i);
+	expanded[i] = '\0';
 	if (match)
 	{
 		ft_strcat(expanded, match);
-		free(match);
+		ft_strdel(&match);
 	}
 	ft_strcat(expanded, &str[i + vlen]);
 	return (expanded);
@@ -63,7 +64,7 @@ char			*expand_shell_vars(char *str, char **env)
 	i = 0;
 	expanded = str;
 	while (str[i++] != '\0')
-		if (str[i] == '$' && ft_isalnum(str[i + 1]))
+		if (str[i] == '$' && ft_isalpha(str[i + 1]))
 		{
 			str = expand_individual_var(str, env, i);
 			free(expanded);

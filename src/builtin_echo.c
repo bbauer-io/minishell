@@ -14,10 +14,15 @@
 
 int				builtin_echo(char **args)
 {
-	while(++args)
+	int		i;
+
+	i = 1;
+	while(args[i])
 	{
-		ft_putstr(*args);
-		ft_putchar(' ');
+		ft_putstr(args[i++]);
+		if (args[i])
+			ft_putchar(' ');
 	}
+	ft_putchar('\n');
 	return (MINISHELL_CONTINUE);
 }

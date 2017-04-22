@@ -61,7 +61,7 @@ void				minishell_loop(char **env)
 			cleanup(NULL, NULL, &args, NULL);
 		}
 	}
-	cleanup(&line, &commands, &args, &env);
+	cleanup(&line, &commands_begin, &args, &env);
 	return ;
 }
 
