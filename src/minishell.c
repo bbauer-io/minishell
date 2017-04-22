@@ -12,6 +12,10 @@
 
 #include "../include/minishell.h"
 
+/*
+** Frees the variables passed in and sets their values to NULL.
+*/
+
 void				cleanup(char **line, char ***com, char ***args, char ***env)
 {
 	if (line)
@@ -29,6 +33,10 @@ void				cleanup(char **line, char ***com, char ***args, char ***env)
 	return ;
 }
 
+/*
+** The main control function for minishell. Should loop forever.
+*/
+
 void				minishell_loop(char **env)
 {
 	int			status;
@@ -40,31 +48,26 @@ void				minishell_loop(char **env)
 	status = MINISHELL_CONTINUE;
 	while (status != MINISHELL_EXIT)
 	{
-		commands = NULL;
-		args = NULL;
-		line = NULL;
-		// print prompt
+		cleanup(&line, &commands_begin, &args, NULL);
 		ft_putstr("===D~ ");
-		// read command from std input
 		get_next_line(0, &line);
-		// split line into multiple commands seperated by a semicolon
 		commands = ft_strtok(line, ";");
 		while (status != MINISHELL_EXIT && commands && *commands)
 		{
 			*commands = expand_shell_vars(*commands, env);
 			commands_begin = commands;
-			// break command into a program and args - not sure about that * syntax
 			args = ft_strtok(*(commands++), " ");
-			// execute program
 			status = minishell_launcher(args, &env);
-			// cleanup
 			cleanup(NULL, NULL, &args, NULL);
 		}
-		cleanup(&line, &commands_begin, &args, NULL);
 	}
-	cleanup(NULL, NULL, NULL, &env);
+	cleanup(&line, &commands, &args, &env);
 	return ;
 }
+
+/*
+** Minishell entry point. Copies envp and that's about it.
+*/
 
 int					main(int argc, char **argv, char **envp)
 {

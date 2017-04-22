@@ -14,6 +14,10 @@
 
 int				builtin_echo(char **args)
 {
-	ft_print_tab(&args[1]);
+	while(++args)
+	{
+		ft_putstr(*args);
+		ft_putchar(' ');
+	}
 	return (MINISHELL_CONTINUE);
 }

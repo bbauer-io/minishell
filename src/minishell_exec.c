@@ -12,6 +12,11 @@
 
 #include "../include/minishell.h"
 
+/*
+** Checks if the command issued was a builtin function and, if so, will launch
+** the corresponding function.
+*/
+
 int					minishell_builtin(char **args, char ***env)
 {
 	if (ft_strequ(args[0], "cd"))
@@ -36,21 +41,94 @@ int					minishell_builtin(char **args, char ***env)
 		return (NOT_BUILTIN);
 }
 
+/*
+** Lookup the $PATH env var and split it into a table of strings.
+*/
+
+char				**path_lookup(char ***env)
+{
+	char		**path_tab;
+	char		*path_str;
+
+	path_tab = NULL;
+	path_str = NULL;
+	path_str = lookup_env_value("PATH", *env);
+	if (!path_str)
+		return (NULL);
+	path_tab = ft_strsplit(path_str, ':');
+	ft_strdel(&path_str);
+	return (path_tab);
+}
+
+static char			*search_paths_for_program(char ***env, char *prog_name)
+{
+	char		*path_str;
+	char		**path_tab;
+	int			found;
+	int			i;
+
+	path_tab = path_lookup(env);
+	i = 0;
+	found = 0;
+	while (path_tab[i] && !found)
+	{
+		path_str = ft_strnew(ft_strlen(path_tab[i]) + ft_strlen(prog_name) + 1);
+		ft_strcpy(path_str, path_tab[i]);
+		ft_strcat(path_str, prog_name);
+		if (access(path_str, X_OK) == 0)
+			found = 1;
+		ft_strdel(&path_str);
+		i++;
+	}
+	ft_tab_del(&path_tab);
+	if (found)
+		return (path_str);
+	return (NULL);
+}
+
+/*
+** First checks that a command is present, then calls the tests for builtin
+** commands. If it is not a builtin command we try to match the command to a
+** program located in the env specified $PATH. Then we call minishell_exec()
+** or return with an error message if the program can't be found.
+*/
+
 int					minishell_launcher(char **args, char ***env)
 {
 	int			status;
+	char		*confirmed_path;
 
-	// If empty command was issued...
+	confirmed_path = NULL;
 	if (args[0] == NULL || *(args[0]) == '\0')
 		return (MINISHELL_CONTINUE);
-	// Check if command is a builtin function
 	if ((status = minishell_builtin(args, env)) == NOT_BUILTIN)
-		return (minishell_exec(args, env));
-	else
-		return (status);
+	{
+		if (args[0][0] != '.' && args[0][0] != '/')
+			confirmed_path = search_paths_for_program(env, args[0]);
+		else if (access(args[0], X_OK) == 0)
+			confirmed_path = ft_strdup(args[0]);
+		else
+		{
+			ft_putstr_fd("minishell: program not found!: ", 2);
+			ft_putendl_fd(args[0], 2);
+		}
+		if (confirmed_path)
+		{
+			ft_putstr(confirmed_path);
+			status = minishell_exec(args, env, confirmed_path);
+			ft_strdel(&confirmed_path);
+		}
+	}
+	return (status);
 }
 
-int					minishell_exec(char **args, char ***env)
+/*
+** Will attempt to find the program file specified before forking and execve().
+** The parent will wait for the child to exit before returning to the main loop
+** to wait for another command.
+*/
+
+int					minishell_exec(char **args, char ***env, char *path)
 {
 	pid_t		pid;
 	pid_t		wpid;
@@ -60,8 +138,7 @@ int					minishell_exec(char **args, char ***env)
 	if (pid == 0)
 	{
 		// Child process
-		// CHANGE PROCESS NAME HERE? -- (args[0] ???)
-		if (execve(args[0], args, *env) == -1)
+		if (execve(path, args, *env) == -1)
 			ft_putstr_fd("minishell: execve() failed!\n", 2);
 		exit(EXIT_FAILURE);
 	}

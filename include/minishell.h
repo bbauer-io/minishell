@@ -15,6 +15,10 @@
 
 # include "libft.h"
 # include "ft_printf.h"
+# include <sys/dir.h>
+# include <sys/stat.h>
+# include <dirent.h>
+
 
 # define MINISHELL_EXIT 0
 # define MINISHELL_CONTINUE 1
@@ -25,7 +29,7 @@
 */
 
 void			minishell_loop(char **env);
-int				minishell_exec(char **args, char ***env);
+int				minishell_exec(char **args, char ***env, char *path);
 int				minishell_launcher(char **args, char ***env);
 char			*expand_shell_vars(char *str, char **env);
 void			cleanup(char **line, char ***com, char ***args, char ***env);
@@ -50,6 +54,6 @@ int				builtin_pwd(void);
 void			add_to_env(char *keyvalpair, char ***env);
 void			find_and_remove_env(char *key, char ***env);
 int				is_valid_env_var(char *str);
-//char			*lookup_env_value(char *key, char **env);
+char			*lookup_env_value(char *key, char **env);
 
 #endif

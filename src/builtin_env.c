@@ -18,7 +18,7 @@
 ** at the beginning of the list here.
 */
 
-char		**build_new_env(char **args)
+static char		**build_new_env(char **args)
 {
 	int		i;
 	int		len;
@@ -44,7 +44,7 @@ char		**build_new_env(char **args)
 ** (so that it will not include the env command and its options)
 */
 
-char		**build_new_args(char **args)
+static char		**build_new_args(char **args)
 {
 	char	**new_args;
 
@@ -60,7 +60,7 @@ char		**build_new_args(char **args)
 ** last valid key=value pair is assumed to be the program to launch.
 */
 
-int			env_i(char **args)
+static int		env_i(char **args)
 {
 	char	**tmp_env;
 	char	**tmp_args;
@@ -90,7 +90,7 @@ int			env_i(char **args)
 ** '=' character.
 */
 
-int			env_u(char **args, char **env)
+static int		env_u(char **args, char **env)
 {
 	char	**tmp_env;
 	char	**tmp_args;

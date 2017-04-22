@@ -12,6 +12,33 @@
 
 #include "../include/minishell.h"
 
+/*
+** Returns the value string that occurs after the end of "VALUE=" in env table.
+*/
+
+char		*lookup_env_value(char *key, char **env)
+{
+	char	*value;
+	int		key_len;
+	int		i;
+
+	i = 0;
+	value = NULL;
+	key_len = ft_strlen(key);
+	while (env[i] && !value)
+	{
+		if (ft_strbeginequ(env[i], key) && env[i][key_len] == '=')
+			value = ft_strdup(&env[i][key_len + 1]);
+		i++;
+	}
+	return (value);
+}
+
+/*
+** Checks that a proposed env var (including key and value) contains only valid
+** characters and is in the valid format (KEY=VALUE).
+*/
+
 int			is_valid_env_var(char *str)
 {
 	int		i;
@@ -66,6 +93,10 @@ void		find_and_remove_env(char *key, char ***env)
 	}
 	return ;
 }
+
+/*
+** Adds a single entry to the env var table.
+*/
 
 void		add_to_env(char *keyvalpair, char ***env)
 {
