@@ -14,7 +14,6 @@
 # define MINISHELL_H
 
 # include "libft.h"
-# include "ft_printf.h"
 # include <sys/dir.h>
 # include <sys/stat.h>
 # include <dirent.h>
