@@ -1,2 +1,3 @@
 add more error messages (when executable not found, etc)
 leak-checks!
+better prompt
