@@ -106,7 +106,7 @@ size_t				ft_nbrlen(int nbr);
 char				*ft_strchr(char const *s, int c);
 char				*ft_strrchr(char const *s, int c);
 int					ft_strequ(char const *s1, char const *s2);
-int					ft_strpartequ(char const *s1, char const *s2);
+int					ft_strbeginequ(char const *s1, char const *s2);
 int					ft_strnequ(char const *s1, char const *s2, size_t n);
 size_t				ft_strlen(char const *str);
 int					ft_strcmp(char const *s1, char const *s2);

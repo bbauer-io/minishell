@@ -36,23 +36,30 @@ int			is_valid_env_var(char *str)
 		return (0);
 }
 
+/*
+** If the specified key is found in the environment table, a new table will be
+** created without that key. env's pointer will be changed to point to the new
+** table and the old will be freed.
+*/
+
 void		find_and_remove_env(char *key, char ***env)
 {
 	int		i;
 	int		tab_len;
 	char	**new_env;
 
+	new_env = NULL;
 	tab_len = 0;
 	while ((*env)[tab_len])
 		tab_len++;
 	i = 0;
 	while ((*env)[i])
 	{
-		if (ft_strequ((*env)[i], key) && (*env)[i][ft_strlen(key)])
+		if (ft_strbeginequ((*env)[i], key) && (*env)[i][ft_strlen(key)] == '=')
 		{
 			new_env = ft_tab_rem_one(*env, i);
-			ft_tab_del(env);
-			*env = new_env;
+			if (new_env)
+				*env = new_env;
 			return ;
 		}
 		i++;
@@ -64,8 +71,9 @@ void		add_to_env(char *keyvalpair, char ***env)
 {
 	char	**new_env;
 
+	new_env = NULL;
 	new_env = ft_tab_add_one(*env, keyvalpair);
-	ft_tab_del(env);
-	*env = new_env;
+	if (new_env)
+		*env = new_env;
 	return ;
 }

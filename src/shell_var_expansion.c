@@ -22,7 +22,7 @@ static char		*matches_env_var(char *var, int vlen, char **env)
 	match_value = NULL;
 	while (env[i] && !match_value)
 	{
-		if (ft_strpartequ(var, env[i]) && env[i][vlen] == '=')
+		if (ft_strbeginequ(env[i], var) && env[i][vlen] == '=')
 			match_value = ft_strdup(&env[i][vlen + 1]);
 		i++;
 	}

@@ -1,40 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtin_setenv.c                                   :+:      :+:    :+:   */
+/*   ft_strbeginequ.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bbauer <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/04/13 18:44:49 by bbauer            #+#    #+#             */
-/*   Updated: 2017/04/13 19:23:45 by bbauer           ###   ########.fr       */
+/*   Created: 2016/04/21 11:51:43 by bbauer            #+#    #+#             */
+/*   Updated: 2016/04/21 12:23:05 by bbauer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/minishell.h"
+#include "libft.h"
 
 /*
-** Set an environment variable!
-** If an env var specified is in the list, delete it first, then add the new
-** key=value string.
+** Returns 1 if  s2 is exaclty the same as s1 (up to the length of s2; s1 may
+** be longer than s2)
 */
 
-int			builtin_setenv(char **args, char ***env)
+int		ft_strbeginequ(char const *s1, char const *s2)
 {
 	int		i;
-	int		k;
-	int		vlen;
-	char	*key;
 
-	i = 1;
-	vlen = 0;
-	while (args[i])
-	{
-		k = 0;
-		key = ft_strcdup(args[i], '=');
-		find_and_remove_env(key, env);
-		add_to_env(args[i], env);
-		free(key);
+	i = 0;
+	if (!s1 || !s2)
+		return (0);
+	if (*s1 == '\0' && *s2 == '\0')
+		return (1);
+	while (s1[i] == s2[i])
 		i++;
-	}
-	return (MINISHELL_CONTINUE);
+	if (s2[i] == '\0')
+		return (1);
+	return (0);
 }

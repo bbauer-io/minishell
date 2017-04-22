@@ -28,6 +28,10 @@ int					minishell_builtin(char **args, char ***env)
 		return (builtin_echo(args));
 	else if (ft_strequ(args[0], "dickbutt"))
 		return (builtin_db());
+	else if (ft_strequ(args[0], "clear"))
+		return (builtin_clear());
+	else if (ft_strequ(args[0], "pwd"))
+		return (builtin_pwd());
 	else
 		return (NOT_BUILTIN);
 }
@@ -48,8 +52,8 @@ int					minishell_launcher(char **args, char ***env)
 
 int					minishell_exec(char **args, char ***env)
 {
-	pid_t	pid;
-	pid_t	wpid;
+	pid_t		pid;
+	pid_t		wpid;
 	int status;
 
 	pid = fork();

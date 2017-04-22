@@ -40,7 +40,8 @@ int				builtin_env(char **args, char ***env);
 int				builtin_setenv(char **args, char ***env);
 int				builtin_unsetenv(char **args, char ***env);
 int				builtin_db(void);
-//int				builtin_clear(void);
+int				builtin_clear(void);
+int				builtin_pwd(void);
 
 /*
 ** Helpers for env functions

@@ -13,7 +13,8 @@
 #include "libft.h"
 
 /*
-** ft_tab_rem_one copies src to a new table with the specified index (rem) 
+** ft_tab_rem_one copies src to a new table without the specified index (rem) 
+** The item at "rem" will be freed.
 */
 
 char		**ft_tab_rem_one(char **src, size_t rem)
@@ -32,5 +33,6 @@ char		**ft_tab_rem_one(char **src, size_t rem)
 		ft_memcpy(&new_tab[rem], &src[rem + 1],
 										sizeof(char *) * (tab_len - rem - 1));
 	new_tab[tab_len] = NULL;
+	ft_strdel(&src[rem]);
 	return (new_tab);
 }
