@@ -60,6 +60,11 @@ char				**path_lookup(char ***env)
 	return (path_tab);
 }
 
+/*
+** Checks all the paths in the PATH env var for an executable file with then
+** specified name and returns the first one it finds.
+*/
+
 static char			*search_paths_for_program(char ***env, char *prog_name)
 {
 	char		*path_str;
@@ -72,17 +77,20 @@ static char			*search_paths_for_program(char ***env, char *prog_name)
 	found = 0;
 	while (path_tab[i] && !found)
 	{
-		path_str = ft_strnew(ft_strlen(path_tab[i]) + ft_strlen(prog_name) + 1);
+		path_str = ft_strnew(ft_strlen(path_tab[i]) + ft_strlen(prog_name) + 2);
 		ft_strcpy(path_str, path_tab[i]);
+		ft_strcat(path_str, "/");
 		ft_strcat(path_str, prog_name);
 		if (access(path_str, X_OK) == 0)
 			found = 1;
+		if (found)
+		{
+			ft_tab_del(&path_tab);
+			return (path_str);
+		}
 		ft_strdel(&path_str);
 		i++;
 	}
-	ft_tab_del(&path_tab);
-	if (found)
-		return (path_str);
 	return (NULL);
 }
 
