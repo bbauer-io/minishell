@@ -33,6 +33,13 @@ void				cleanup(char **line, char ***com, char ***args, char ***env)
 	return ;
 }
 
+void				init_to_null(char **line, char ***com, char ***env)
+{
+	*line = NULL;
+	*com = NULL;
+	*env = NULL;
+}
+
 /*
 ** The main control function for minishell. Should loop forever.
 */
@@ -45,10 +52,10 @@ void				minishell_loop(char **env)
 	char		**commands;
 	char		**commands_begin;
 
+	init_to_null(&line, &commands_begin, &args);
 	status = MINISHELL_CONTINUE;
 	while (status != MINISHELL_EXIT)
 	{
-		cleanup(&line, &commands_begin, &args, NULL);
 		ft_putstr("===D~ ");
 		get_next_line(0, &line);
 		commands = ft_strtok(line, ";");
@@ -60,6 +67,7 @@ void				minishell_loop(char **env)
 			status = minishell_launcher(args, &env);
 			cleanup(NULL, NULL, &args, NULL);
 		}
+		cleanup(&line, &commands_begin, &args, NULL);
 	}
 	cleanup(&line, &commands_begin, &args, &env);
 	return ;

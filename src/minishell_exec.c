@@ -122,7 +122,6 @@ int					minishell_launcher(char **args, char ***env)
 		}
 		if (confirmed_path)
 		{
-			ft_putstr(confirmed_path);
 			status = minishell_exec(args, env, confirmed_path);
 			ft_strdel(&confirmed_path);
 		}
