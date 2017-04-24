@@ -6,7 +6,7 @@
 /*   By: bbauer <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/11 18:44:49 by bbauer            #+#    #+#             */
-/*   Updated: 2017/04/11 19:23:45 by bbauer           ###   ########.fr       */
+/*   Updated: 2017/04/24 15:25:03 by bbauer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,10 +72,11 @@ static char			*search_paths_for_program(char ***env, char *prog_name)
 	int			found;
 	int			i;
 
-	path_tab = path_lookup(env);
 	i = 0;
 	found = 0;
-	while (path_tab[i] && !found)
+	path_str = NULL;
+	path_tab = path_lookup(env);
+	while (path_tab && path_tab[i] && !found)
 	{
 		path_str = ft_strnew(ft_strlen(path_tab[i]) + ft_strlen(prog_name) + 2);
 		ft_strcpy(path_str, path_tab[i]);
@@ -83,16 +84,13 @@ static char			*search_paths_for_program(char ***env, char *prog_name)
 		ft_strcat(path_str, prog_name);
 		if (access(path_str, X_OK) == 0)
 			found = 1;
-		if (found)
-		{
-			ft_tab_del(&path_tab);
-			return (path_str);
-		}
-		ft_strdel(&path_str);
+		else
+			ft_strdel(&path_str);
 		i++;
 	}
-	ft_tab_del(&path_tab);
-	return (NULL);
+	if (path_tab)
+		ft_tab_del(&path_tab);
+	return (path_str ? path_str : NULL);
 }
 
 /*
@@ -116,15 +114,15 @@ int					minishell_launcher(char **args, char ***env)
 			confirmed_path = search_paths_for_program(env, args[0]);
 		else if (access(args[0], X_OK) == 0)
 			confirmed_path = ft_strdup(args[0]);
-		else
-		{
-			ft_putstr_fd("minishell: program not found!: ", 2);
-			ft_putendl_fd(args[0], 2);
-		}
 		if (confirmed_path)
 		{
 			status = minishell_exec(args, env, confirmed_path);
 			ft_strdel(&confirmed_path);
+		}
+		else
+		{
+			ft_putstr_fd("minishell: program not found!: ", 2);
+			ft_putendl_fd(args[0], 2);
 		}
 	}
 	return (status);
