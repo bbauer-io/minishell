@@ -21,15 +21,11 @@
 int			builtin_setenv(char **args, char ***env)
 {
 	int		i;
-	int		k;
-	int		vlen;
 	char	*key;
 
 	i = 1;
-	vlen = 0;
 	while (args[i])
 	{
-		k = 0;
 		key = ft_strcdup(args[i], '=');
 		find_and_remove_env(key, env);
 		add_to_env(args[i], env);

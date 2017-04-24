@@ -16,6 +16,8 @@
 # include "libft.h"
 # include <sys/dir.h>
 # include <sys/stat.h>
+# include <sys/wait.h>
+# include <sys/types.h>
 # include <dirent.h>
 
 

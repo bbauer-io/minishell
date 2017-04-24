@@ -51,7 +51,7 @@ static char		**build_new_args(char **args)
 	while (is_valid_env_var(*args))
 		args++;
 	new_args = ft_tab_dup(args);
-	return (args);
+	return (new_args);
 }
 
 /*
@@ -116,7 +116,8 @@ static int		env_u(char **args, char **env)
 int			builtin_env(char **args, char ***env)
 {
 	int		status;
-	
+
+	status = MINISHELL_CONTINUE;
 	if (args[1] && args[1][0] == '-' && args[1][1] == 'u')
 		status = env_u(args, *env);
 	else if (args[1] && args[1][0] == '-' && args[1][1] == 'i' && args[2])
@@ -125,5 +126,5 @@ int			builtin_env(char **args, char ***env)
 		ft_print_tab(*env);
 	else
 		ft_putstr_fd("no environment found! where am i!? heeeeeellp!\n", 2);
-	return (MINISHELL_CONTINUE);
+	return (status);
 }
