@@ -56,7 +56,7 @@ void				minishell_loop(char **env)
 	status = MINISHELL_CONTINUE;
 	while (status != MINISHELL_EXIT)
 	{
-		ft_putstr("===D~ ");
+		ft_putstr("Meh$H> ");
 		get_next_line(0, &line);
 		commands = ft_strtok(line, ";");
 		while (status != MINISHELL_EXIT && commands && *commands)

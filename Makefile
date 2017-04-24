@@ -15,6 +15,7 @@ CC = gcc
 LIBFT = ./src/libft/libft.a
 CFLAGS = -Wall -Wextra -Werror
 DEBUGFLAGS =  -fsanitize=address -g -o minishell_debug
+LEAKCHECKFLAGS = -g -o minishell_leakcheck
 
 SRCF = builtin_cd.c \
 		builtin_clear.c \
@@ -37,10 +38,6 @@ SRCDIR = ./src/
 LIBDIR = ./src/libft/
 INCDIR = ./include/
 
-CCRED = \e[0;31m
-CCGREEN = \e[0;32m
-CCEND = \e[0;0m
-
 .PHONY: $(NAME), all, clean, fclean, re, $(LIBFT)
 
 all: $(LIBFT) $(NAME)
@@ -61,6 +58,8 @@ clean:
 	@rm -rf $(OBJDIR)
 	@rm -rf minishell_debug
 	@rm -rf minishell_debug.dSYM
+	@rm -rf minishell_leakcheck
+	@rm -rf minishell_leakcheck.dSYM
 	@make -C $(LIBDIR) clean
 
 fclean: clean
@@ -74,3 +73,6 @@ debug: $(LIBFT)
 	@echo "Compiling minishel with debugging options"
 	$(CC) $(CFLAGS) $(SRC) $(LIBFT) -I$(INCDIR) $(DEBUGFLAGS)
 
+leakcheck: $(LIBFT)
+	@echo "Compiling for leak checks with valgrind"
+	$(CC) $(CFLAGS) $(SRC) $(LIBFT) -I$(INCDIR) $(LEAKCHECKFLAGS)

@@ -91,6 +91,7 @@ static char			*search_paths_for_program(char ***env, char *prog_name)
 		ft_strdel(&path_str);
 		i++;
 	}
+	ft_tab_del(&path_tab);
 	return (NULL);
 }
 
@@ -138,13 +139,11 @@ int					minishell_launcher(char **args, char ***env)
 int					minishell_exec(char **args, char ***env, char *path)
 {
 	pid_t		pid;
-	pid_t		wpid;
 	int status;
 
 	pid = fork();
 	if (pid == 0)
 	{
-		// Child process
 		if (execve(path, args, *env) == -1)
 			ft_putstr_fd("minishell: execve() failed!\n", 2);
 		exit(EXIT_FAILURE);
@@ -153,10 +152,9 @@ int					minishell_exec(char **args, char ***env, char *path)
 		ft_putstr_fd("minishell: fork() error!\n", 2);
 	else
 	{
-		// Parent process
-		wpid = waitpid(pid, &status, WUNTRACED);
+		waitpid(pid, &status, WUNTRACED);
 		while (!WIFEXITED(status) && !WIFSIGNALED(status))
-			wpid = waitpid(pid, &status, WUNTRACED);
+			waitpid(pid, &status, WUNTRACED);
 	}
 	return (MINISHELL_CONTINUE);
 }

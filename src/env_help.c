@@ -46,7 +46,7 @@ int			is_valid_env_var(char *str)
 
 	i = 0;
 	has_value = 0;
-	if (!str || !ft_isalpha(str[i++]) || !(str[0] == '_'))
+	if (!str || (!ft_isalpha(str[i++]) && !(str[0] == '_')))
 		return (0);
 	while (ft_isalnum(str[i]) || str[i] == '_')
 		i++;
@@ -105,6 +105,9 @@ void		add_to_env(char *keyvalpair, char ***env)
 	new_env = NULL;
 	new_env = ft_tab_add_one(*env, keyvalpair);
 	if (new_env)
+	{
+		free(*env);
 		*env = new_env;
+	}
 	return ;
 }

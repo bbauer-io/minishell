@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "libft.h"
+
 #define LIST_STR (char*)fd_node->content
 #define NL ft_strcspn(LIST_STR, '\n')
 

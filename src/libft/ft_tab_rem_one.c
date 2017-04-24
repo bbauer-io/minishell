@@ -14,7 +14,8 @@
 
 /*
 ** ft_tab_rem_one copies src to a new table without the specified index (rem) 
-** The item at "rem" will be freed.
+** The item at "rem" will be freed. The src table will also be freed after its
+** replacement is created.
 */
 
 char		**ft_tab_rem_one(char **src, size_t rem)
@@ -34,5 +35,6 @@ char		**ft_tab_rem_one(char **src, size_t rem)
 										sizeof(char *) * (tab_len - rem - 1));
 	new_tab[tab_len] = NULL;
 	ft_strdel(&src[rem]);
+	free(src);
 	return (new_tab);
 }
