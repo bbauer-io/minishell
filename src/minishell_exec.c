@@ -124,6 +124,7 @@ int					minishell_launcher(char **args, char ***env)
 			ft_putstr_fd("minishell: program not found!: ", 2);
 			ft_putendl_fd(args[0], 2);
 		}
+		return (status != 2 ? status : MINISHELL_CONTINUE);
 	}
 	return (status);
 }
