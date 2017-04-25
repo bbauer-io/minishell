@@ -6,7 +6,7 @@
 /*   By: bbauer <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/11 18:44:49 by bbauer            #+#    #+#             */
-/*   Updated: 2017/04/24 15:25:03 by bbauer           ###   ########.fr       */
+/*   Updated: 2017/04/25 11:05:57 by bbauer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ char				*verify_program_exists(char **args, char ***env)
 		ft_strcpy(relative_path, "./");
 		ft_strcat(relative_path, args[0]);
 	}
-	if (args[0][0] != '.' && args[0][0] != '/')
+	if (args[0][0] != '.' && args[0][0] != '/' && !ft_strchr(args[0], '/'))
 		confirmed_path = search_paths_for_program(env, args[0]);
 	else if (access(args[0], X_OK) == 0)
 		confirmed_path = ft_strdup(args[0]);
