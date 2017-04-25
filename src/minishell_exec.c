@@ -17,13 +17,14 @@ char				*verify_program_exists(char **args, char ***env)
 	char		*confirmed_path;
 	char		*relative_path;
 
+	relative_path = NULL;
+	confirmed_path = NULL;
 	if (args[0][0] != '.' && args[0][0] != '/' && ft_strchr(args[0], '/'))
 	{
 		relative_path = ft_strnew(ft_strlen(args[0] + 2));
 		ft_strcpy(relative_path, "./");
 		ft_strcat(relative_path, args[0]);
 	}
-	confirmed_path = NULL;
 	if (args[0][0] != '.' && args[0][0] != '/')
 		confirmed_path = search_paths_for_program(env, args[0]);
 	else if (access(args[0], X_OK) == 0)
