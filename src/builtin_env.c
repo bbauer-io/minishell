@@ -99,18 +99,17 @@ static int		env_u(char **args, char **env)
 	char	*ret;
 
 	i = 2;
+	ret = NULL;
 	if (!args[i] || !lookup_env_value(args[i], env))
 	{
 		ft_putstr_fd("usage: env -u [OMIT NAMES ...] program [args ...]\n", 2);
 		return (MINISHELL_CONTINUE);
 	}
-	ret = NULL;
+	ret ? ft_strdel(&ret) : NULL;
 	tmp_env = ft_tab_dup(env);
 	while ((ret = lookup_env_value(args[i], tmp_env)))
-		{
-			find_and_remove_env(args[i++], &tmp_env);
-			ft_strdel(&ret);
-		}
+		find_and_remove_env(args[i++], &tmp_env);
+	ret ? ft_strdel(&ret) : NULL;
 	tmp_args = ft_tab_dup(&args[i]);
 	status = minishell_launcher(tmp_args, &tmp_env);
 	cleanup(NULL, NULL, &tmp_args, &tmp_env);
