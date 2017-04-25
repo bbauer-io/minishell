@@ -6,7 +6,7 @@
 /*   By: bbauer <bbauer@student.42.us.org>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/25 11:25:14 by bbauer            #+#    #+#             */
-/*   Updated: 2017/04/25 12:03:03 by bbauer           ###   ########.fr       */
+/*   Updated: 2017/04/25 12:24:58 by bbauer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,5 +106,3 @@ char				*verify_program_exists(char **args, char ***env)
 		ft_strdel(&relative_path);
 	return (confirmed_path);
 }
-
-

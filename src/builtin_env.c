@@ -6,7 +6,7 @@
 /*   By: bbauer <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/13 18:44:49 by bbauer            #+#    #+#             */
-/*   Updated: 2017/04/13 19:23:45 by bbauer           ###   ########.fr       */
+/*   Updated: 2017/04/25 12:21:51 by bbauer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,7 +122,7 @@ static int		env_u(char **args, char **env)
 ** For launching programs with a modified environment.
 */
 
-int			builtin_env(char **args, char ***env)
+int				builtin_env(char **args, char ***env)
 {
 	int		status;
 

@@ -6,15 +6,15 @@
 /*   By: bbauer <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/17 13:16:57 by bbauer            #+#    #+#             */
-/*   Updated: 2016/04/17 13:19:39 by bbauer           ###   ########.fr       */
+/*   Updated: 2017/04/25 12:29:15 by bbauer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
 /*
-** ft_tab_add_one copies src_tab to a new table with space for one more entry, then
-** copies that entry and adds a pointer to it in the new table.
+** ft_tab_add_one copies src_tab to a new table with space for one more entry,
+** then copies that entry and adds a pointer to it in the new table.
 ** Returns the new (char **) table.
 */
 

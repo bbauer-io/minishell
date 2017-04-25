@@ -6,7 +6,7 @@
 /*   By: bbauer <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/10 13:16:57 by bbauer            #+#    #+#             */
-/*   Updated: 2016/04/11 13:19:39 by bbauer           ###   ########.fr       */
+/*   Updated: 2017/04/25 12:20:38 by bbauer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ static int	ft_toklen(char *str, char *sep)
 	return (i);
 }
 
-char	**ft_strtok(char *str, char *sep)
+char		**ft_strtok(char *str, char *sep)
 {
 	int		i;
 	int		k;

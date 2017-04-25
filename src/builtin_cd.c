@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtins_cd.c                                    :+:      :+:    :+:   */
+/*   builtin_cd.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bbauer <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: bbauer <bbauer@student.42.us.org>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/04/13 18:44:49 by bbauer            #+#    #+#             */
-/*   Updated: 2017/04/13 19:23:45 by bbauer           ###   ########.fr       */
+/*   Created: 2017/04/25 12:22:20 by bbauer            #+#    #+#             */
+/*   Updated: 2017/04/25 12:23:23 by bbauer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 ** alone will be returned.
 */
 
-char		*expand_home_dir(char *str, char ***env)
+char			*expand_home_dir(char *str, char ***env)
 {
 	char	*home;
 	char	*expanded;
@@ -35,7 +35,7 @@ char		*expand_home_dir(char *str, char ***env)
 			return (expanded);
 		}
 		else
-				ft_putstr_fd("Error! $HOME is undefined!\n", 2);
+			ft_putstr_fd("Error! $HOME is undefined!\n", 2);
 	}
 	if (home)
 		return (home);
@@ -105,7 +105,7 @@ static void		change_directory(char *path, char ***env)
 ** Changes the shell's working directory.
 */
 
-int			builtin_cd(char **args, char ***env)
+int				builtin_cd(char **args, char ***env)
 {
 	char	*path;
 	DIR		*dir;

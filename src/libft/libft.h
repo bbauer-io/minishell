@@ -6,7 +6,7 @@
 /*   By: bbauer <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/02 11:53:06 by bbauer            #+#    #+#             */
-/*   Updated: 2017/03/02 13:50:23 by bbauer           ###   ########.fr       */
+/*   Updated: 2017/04/25 12:20:02 by bbauer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ char				**ft_wrdsplit(char const *s);
 ** Functions for working with tables (char ** arrays)
 */
 
-char		**ft_tab_add_one(char **src_tab, char *new_item);
+char				**ft_tab_add_one(char **src_tab, char *new_item);
 void				ft_tab_cat(char **dst, char **src);
 void				ft_tab_del(char ***tab);
 char				**ft_tab_dup(char **tab);

@@ -6,7 +6,7 @@
 /*   By: bbauer <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/11 18:44:49 by bbauer            #+#    #+#             */
-/*   Updated: 2017/04/25 12:09:16 by bbauer           ###   ########.fr       */
+/*   Updated: 2017/04/25 12:24:30 by bbauer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ int					minishell_launcher(char **args, char ***env)
 int					minishell_exec(char **args, char ***env, char *path)
 {
 	pid_t		g_child_pid;
-	int status;
+	int			status;
 
 	g_child_pid = fork();
 	if (g_child_pid == 0)

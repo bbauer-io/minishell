@@ -6,7 +6,7 @@
 /*   By: bbauer <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/21 18:44:49 by bbauer            #+#    #+#             */
-/*   Updated: 2017/04/25 12:09:43 by bbauer           ###   ########.fr       */
+/*   Updated: 2017/04/25 12:23:43 by bbauer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,6 @@ int					main(int argc, char **argv, char **envp)
 
 	if (argc && argv)
 		argc++;
-
 	signal(SIGINT, interrupt_child_process);
 	env = ft_tab_dup(envp);
 	minishell_loop(env);

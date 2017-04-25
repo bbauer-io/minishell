@@ -6,14 +6,14 @@
 /*   By: bbauer <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/15 13:16:57 by bbauer            #+#    #+#             */
-/*   Updated: 2016/04/15 13:19:39 by bbauer           ###   ########.fr       */
+/*   Updated: 2017/04/25 12:19:43 by bbauer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
 /*
-** ft_tab_rem_one copies src to a new table without the specified index (rem) 
+** ft_tab_rem_one copies src to a new table without the specified index (rem)
 ** The item at "rem" will be freed. The src table will also be freed after its
 ** replacement is created.
 */
