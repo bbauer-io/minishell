@@ -6,7 +6,7 @@
 #    By: bbauer <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/03/21 18:44:49 by bbauer            #+#    #+#              #
-#    Updated: 2017/03/21 18:44:49 by bbauer           ###   ########.fr        #
+#    Updated: 2017/04/25 11:56:42 by bbauer           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,6 +30,7 @@ SRCF = builtin_cd.c \
 		minishell_exec.c \
 		minishell_path_search.c \
 		shell_var_expansion.c \
+		signal.c \
 
 SRC = $(addprefix $(SRCDIR),$(SRCF))
 OBJ = $(addprefix $(OBJDIR),$(SRCF:.c=.o))

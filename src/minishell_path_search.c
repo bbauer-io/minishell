@@ -1,34 +1,16 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   minishell_path_search.c                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: bbauer <bbauer@student.42.us.org>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2017/04/25 11:25:14 by bbauer            #+#    #+#             */
+/*   Updated: 2017/04/25 12:03:03 by bbauer           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "../include/minishell.h"
-
-/*
-** Checks if the command issued was a builtin function and, if so, will launch
-** the corresponding function.
-*/
-
-int					minishell_builtin(char **args, char ***env)
-{
-	if (ft_strequ(args[0], "cd"))
-		return (builtin_cd(args, env));
-	else if (ft_strequ(args[0], "exit"))
-		return (MINISHELL_EXIT);
-	else if (ft_strequ(args[0], "env"))
-		return (builtin_env(args, env));
-	else if (ft_strequ(args[0], "setenv"))
-		return (builtin_setenv(args, env));
-	else if (ft_strequ(args[0], "unsetenv"))
-		return (builtin_unsetenv(args, env));
-	else if (ft_strequ(args[0], "echo"))
-		return (builtin_echo(args));
-	else if (ft_strequ(args[0], "dickbutt"))
-		return (builtin_db());
-	else if (ft_strequ(args[0], "clear"))
-		return (builtin_clear());
-	else if (ft_strequ(args[0], "pwd"))
-		return (builtin_pwd());
-	else
-		return (NOT_BUILTIN);
-}
 
 /*
 ** Lookup the $PATH env var and split it into a table of strings.
@@ -70,7 +52,7 @@ static char			*build_path_str(char *path, char *prog_name)
 ** specified name and returns the first one it finds.
 */
 
-char				*search_paths_for_program(char ***env, char *prog_name)
+static char			*search_paths_for_program(char ***env, char *prog_name)
 {
 	char		*path_str;
 	char		**path_tab;
@@ -93,6 +75,36 @@ char				*search_paths_for_program(char ***env, char *prog_name)
 	if (path_tab)
 		ft_tab_del(&path_tab);
 	return (path_str ? path_str : NULL);
+}
+
+/*
+** Tests that the an argument specifies a program that we have access to. Can
+** be a relative path, or a full path. relative paths must start with "./" only
+** if the specified executable is in the current working directory.
+*/
+
+char				*verify_program_exists(char **args, char ***env)
+{
+	char		*confirmed_path;
+	char		*relative_path;
+
+	relative_path = NULL;
+	confirmed_path = NULL;
+	if (args[0][0] != '.' && args[0][0] != '/' && ft_strchr(args[0], '/'))
+	{
+		relative_path = ft_strnew(ft_strlen(args[0] + 2));
+		ft_strcpy(relative_path, "./");
+		ft_strcat(relative_path, args[0]);
+	}
+	if (args[0][0] != '.' && args[0][0] != '/' && !ft_strchr(args[0], '/'))
+		confirmed_path = search_paths_for_program(env, args[0]);
+	else if (access(args[0], X_OK) == 0)
+		confirmed_path = ft_strdup(args[0]);
+	else if (relative_path && access(relative_path, X_OK) == 0)
+		confirmed_path = ft_strdup(args[0]);
+	if (relative_path)
+		ft_strdel(&relative_path);
+	return (confirmed_path);
 }
 
 

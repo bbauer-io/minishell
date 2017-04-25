@@ -6,34 +6,39 @@
 /*   By: bbauer <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/11 18:44:49 by bbauer            #+#    #+#             */
-/*   Updated: 2017/04/25 11:05:57 by bbauer           ###   ########.fr       */
+/*   Updated: 2017/04/25 12:09:16 by bbauer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-char				*verify_program_exists(char **args, char ***env)
-{
-	char		*confirmed_path;
-	char		*relative_path;
+/*
+** Checks if the command issued was a builtin function and, if so, will launch
+** the corresponding function.
+*/
 
-	relative_path = NULL;
-	confirmed_path = NULL;
-	if (args[0][0] != '.' && args[0][0] != '/' && ft_strchr(args[0], '/'))
-	{
-		relative_path = ft_strnew(ft_strlen(args[0] + 2));
-		ft_strcpy(relative_path, "./");
-		ft_strcat(relative_path, args[0]);
-	}
-	if (args[0][0] != '.' && args[0][0] != '/' && !ft_strchr(args[0], '/'))
-		confirmed_path = search_paths_for_program(env, args[0]);
-	else if (access(args[0], X_OK) == 0)
-		confirmed_path = ft_strdup(args[0]);
-	else if (relative_path && access(relative_path, X_OK) == 0)
-		confirmed_path = ft_strdup(args[0]);
-	if (relative_path)
-		ft_strdel(&relative_path);
-	return (confirmed_path);
+static int			minishell_builtin(char **args, char ***env)
+{
+	if (ft_strequ(args[0], "cd"))
+		return (builtin_cd(args, env));
+	else if (ft_strequ(args[0], "exit"))
+		return (MINISHELL_EXIT);
+	else if (ft_strequ(args[0], "env"))
+		return (builtin_env(args, env));
+	else if (ft_strequ(args[0], "setenv"))
+		return (builtin_setenv(args, env));
+	else if (ft_strequ(args[0], "unsetenv"))
+		return (builtin_unsetenv(args, env));
+	else if (ft_strequ(args[0], "echo"))
+		return (builtin_echo(args));
+	else if (ft_strequ(args[0], "dickbutt"))
+		return (builtin_db());
+	else if (ft_strequ(args[0], "clear"))
+		return (builtin_clear());
+	else if (ft_strequ(args[0], "pwd"))
+		return (builtin_pwd());
+	else
+		return (NOT_BUILTIN);
 }
 
 /*
@@ -54,10 +59,6 @@ int					minishell_launcher(char **args, char ***env)
 	if ((status = minishell_builtin(args, env)) == NOT_BUILTIN)
 	{
 		confirmed_path = verify_program_exists(args, env);
-	//	if (args[0][0] != '.' && args[0][0] != '/')
-	//		confirmed_path = search_paths_for_program(env, args[0]);
-	//	else if (access(args[0], X_OK) == 0 || access(args[0])
-	//		confirmed_path = ft_strdup(args[0]);
 		if (confirmed_path)
 		{
 			status = minishell_exec(args, env, confirmed_path);
@@ -81,23 +82,24 @@ int					minishell_launcher(char **args, char ***env)
 
 int					minishell_exec(char **args, char ***env, char *path)
 {
-	pid_t		pid;
+	pid_t		g_child_pid;
 	int status;
 
-	pid = fork();
-	if (pid == 0)
+	g_child_pid = fork();
+	if (g_child_pid == 0)
 	{
 		if (execve(path, args, *env) == -1)
 			ft_putstr_fd("minishell: execve() failed!\n", 2);
 		exit(EXIT_FAILURE);
 	}
-	else if (pid < 0)
+	else if (g_child_pid < 0)
 		ft_putstr_fd("minishell: fork() error!\n", 2);
 	else
 	{
-		waitpid(pid, &status, WUNTRACED);
+		waitpid(g_child_pid, &status, WUNTRACED);
 		while (!WIFEXITED(status) && !WIFSIGNALED(status))
-			waitpid(pid, &status, WUNTRACED);
+			waitpid(g_child_pid, &status, WUNTRACED);
+		g_child_pid = -1;
 	}
 	return (MINISHELL_CONTINUE);
 }

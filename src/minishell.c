@@ -6,11 +6,18 @@
 /*   By: bbauer <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/21 18:44:49 by bbauer            #+#    #+#             */
-/*   Updated: 2017/03/21 19:23:45 by bbauer           ###   ########.fr       */
+/*   Updated: 2017/04/25 12:09:43 by bbauer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
+
+/*
+** Global variable which will store pid of child processes after fork/execve
+** so that they can be terminated by ctrl-c without stopping the shell.
+*/
+
+pid_t			g_child_pid = -1;
 
 /*
 ** Frees the variables passed in and sets their values to NULL.
@@ -84,6 +91,7 @@ int					main(int argc, char **argv, char **envp)
 	if (argc && argv)
 		argc++;
 
+	signal(SIGINT, interrupt_child_process);
 	env = ft_tab_dup(envp);
 	minishell_loop(env);
 	return (EXIT_SUCCESS);
