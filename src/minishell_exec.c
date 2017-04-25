@@ -6,7 +6,7 @@
 /*   By: bbauer <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/11 18:44:49 by bbauer            #+#    #+#             */
-/*   Updated: 2017/04/25 12:24:30 by bbauer           ###   ########.fr       */
+/*   Updated: 2017/04/25 15:27:50 by bbauer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,24 +82,23 @@ int					minishell_launcher(char **args, char ***env)
 
 int					minishell_exec(char **args, char ***env, char *path)
 {
-	pid_t		g_child_pid;
+	pid_t		pid;
 	int			status;
 
-	g_child_pid = fork();
-	if (g_child_pid == 0)
+	pid = fork();
+	if (pid == 0)
 	{
 		if (execve(path, args, *env) == -1)
 			ft_putstr_fd("minishell: execve() failed!\n", 2);
 		exit(EXIT_FAILURE);
 	}
-	else if (g_child_pid < 0)
+	else if (pid < 0)
 		ft_putstr_fd("minishell: fork() error!\n", 2);
 	else
 	{
-		waitpid(g_child_pid, &status, WUNTRACED);
+		waitpid(pid, &status, WUNTRACED);
 		while (!WIFEXITED(status) && !WIFSIGNALED(status))
-			waitpid(g_child_pid, &status, WUNTRACED);
-		g_child_pid = -1;
+			waitpid(pid, &status, WUNTRACED);
 	}
 	return (MINISHELL_CONTINUE);
 }

@@ -6,7 +6,7 @@
 /*   By: bbauer <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/21 18:44:48 by bbauer            #+#    #+#             */
-/*   Updated: 2017/04/25 12:04:44 by bbauer           ###   ########.fr       */
+/*   Updated: 2017/04/25 15:26:48 by bbauer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,12 +24,6 @@
 # define MINISHELL_EXIT 0
 # define MINISHELL_CONTINUE 1
 # define NOT_BUILTIN 2
-
-/*
-** global variable to keep track of child PID (for handling of signals)
-*/
-
-extern pid_t	g_child_pid;
 
 /*
 ** Minishell functions
