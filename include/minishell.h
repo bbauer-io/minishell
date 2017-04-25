@@ -32,6 +32,8 @@
 void			minishell_loop(char **env);
 int				minishell_exec(char **args, char ***env, char *path);
 int				minishell_launcher(char **args, char ***env);
+int				minishell_builtin(char **args, char ***env);
+char			*search_paths_for_program(char ***env, char *prog_name);
 char			*expand_shell_vars(char *str, char **env);
 void			cleanup(char **line, char ***com, char ***args, char ***env);
 

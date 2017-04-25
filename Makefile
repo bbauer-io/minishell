@@ -28,6 +28,7 @@ SRCF = builtin_cd.c \
 		env_help.c \
 		minishell.c \
 		minishell_exec.c \
+		minishell_path_search.c \
 		shell_var_expansion.c \
 
 SRC = $(addprefix $(SRCDIR),$(SRCF))

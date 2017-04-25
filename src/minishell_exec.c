@@ -12,85 +12,27 @@
 
 #include "../include/minishell.h"
 
-/*
-** Checks if the command issued was a builtin function and, if so, will launch
-** the corresponding function.
-*/
-
-int					minishell_builtin(char **args, char ***env)
+char				*verify_program_exists(char **args, char ***env)
 {
-	if (ft_strequ(args[0], "cd"))
-		return (builtin_cd(args, env));
-	else if (ft_strequ(args[0], "exit"))
-		return (MINISHELL_EXIT);
-	else if (ft_strequ(args[0], "env"))
-		return (builtin_env(args, env));
-	else if (ft_strequ(args[0], "setenv"))
-		return (builtin_setenv(args, env));
-	else if (ft_strequ(args[0], "unsetenv"))
-		return (builtin_unsetenv(args, env));
-	else if (ft_strequ(args[0], "echo"))
-		return (builtin_echo(args));
-	else if (ft_strequ(args[0], "dickbutt"))
-		return (builtin_db());
-	else if (ft_strequ(args[0], "clear"))
-		return (builtin_clear());
-	else if (ft_strequ(args[0], "pwd"))
-		return (builtin_pwd());
-	else
-		return (NOT_BUILTIN);
-}
+	char		*confirmed_path;
+	char		*relative_path;
 
-/*
-** Lookup the $PATH env var and split it into a table of strings.
-*/
-
-char				**path_lookup(char ***env)
-{
-	char		**path_tab;
-	char		*path_str;
-
-	path_tab = NULL;
-	path_str = NULL;
-	path_str = lookup_env_value("PATH", *env);
-	if (!path_str)
-		return (NULL);
-	path_tab = ft_strsplit(path_str, ':');
-	ft_strdel(&path_str);
-	return (path_tab);
-}
-
-/*
-** Checks all the paths in the PATH env var for an executable file with then
-** specified name and returns the first one it finds.
-*/
-
-static char			*search_paths_for_program(char ***env, char *prog_name)
-{
-	char		*path_str;
-	char		**path_tab;
-	int			found;
-	int			i;
-
-	i = 0;
-	found = 0;
-	path_str = NULL;
-	path_tab = path_lookup(env);
-	while (path_tab && path_tab[i] && !found)
+	if (args[0][0] != '.' && args[0][0] != '/' && ft_strchr(args[0], '/'))
 	{
-		path_str = ft_strnew(ft_strlen(path_tab[i]) + ft_strlen(prog_name) + 2);
-		ft_strcpy(path_str, path_tab[i]);
-		ft_strcat(path_str, "/");
-		ft_strcat(path_str, prog_name);
-		if (access(path_str, X_OK) == 0)
-			found = 1;
-		else
-			ft_strdel(&path_str);
-		i++;
+		relative_path = ft_strnew(ft_strlen(args[0] + 2));
+		ft_strcpy(relative_path, "./");
+		ft_strcat(relative_path, args[0]);
 	}
-	if (path_tab)
-		ft_tab_del(&path_tab);
-	return (path_str ? path_str : NULL);
+	confirmed_path = NULL;
+	if (args[0][0] != '.' && args[0][0] != '/')
+		confirmed_path = search_paths_for_program(env, args[0]);
+	else if (access(args[0], X_OK) == 0)
+		confirmed_path = ft_strdup(args[0]);
+	else if (relative_path && access(relative_path, X_OK) == 0)
+		confirmed_path = ft_strdup(args[0]);
+	if (relative_path)
+		ft_strdel(&relative_path);
+	return (confirmed_path);
 }
 
 /*
@@ -110,10 +52,11 @@ int					minishell_launcher(char **args, char ***env)
 		return (MINISHELL_CONTINUE);
 	if ((status = minishell_builtin(args, env)) == NOT_BUILTIN)
 	{
-		if (args[0][0] != '.' && args[0][0] != '/')
-			confirmed_path = search_paths_for_program(env, args[0]);
-		else if (access(args[0], X_OK) == 0)
-			confirmed_path = ft_strdup(args[0]);
+		confirmed_path = verify_program_exists(args, env);
+	//	if (args[0][0] != '.' && args[0][0] != '/')
+	//		confirmed_path = search_paths_for_program(env, args[0]);
+	//	else if (access(args[0], X_OK) == 0 || access(args[0])
+	//		confirmed_path = ft_strdup(args[0]);
 		if (confirmed_path)
 		{
 			status = minishell_exec(args, env, confirmed_path);
