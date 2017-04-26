@@ -6,7 +6,7 @@
 #    By: bbauer <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/03/21 18:44:49 by bbauer            #+#    #+#              #
-#    Updated: 2017/04/25 11:56:42 by bbauer           ###   ########.fr        #
+#    Updated: 2017/04/26 13:01:20 by bbauer           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,6 +29,7 @@ SRCF = builtin_cd.c \
 		minishell.c \
 		minishell_exec.c \
 		minishell_path_search.c \
+		minishell_parse_input.c \
 		shell_var_expansion.c \
 		signal.c \
 

@@ -6,7 +6,7 @@
 /*   By: bbauer <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/17 13:16:57 by bbauer            #+#    #+#             */
-/*   Updated: 2017/04/25 12:29:15 by bbauer           ###   ########.fr       */
+/*   Updated: 2017/04/26 10:53:30 by bbauer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ char		**ft_tab_add_one(char **src_tab, char *new_item)
 	char	**new_tab;
 
 	tab_len = 0;
-	while (src_tab[tab_len])
+	while (src_tab && src_tab[tab_len])
 		tab_len++;
 	new_tab = (char **)malloc(sizeof(char *) * (tab_len + 2));
 	ft_bzero(new_tab, sizeof(char *) * (tab_len + 2));

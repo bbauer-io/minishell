@@ -6,7 +6,7 @@
 /*   By: bbauer <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/21 18:44:48 by bbauer            #+#    #+#             */
-/*   Updated: 2017/04/25 15:26:48 by bbauer           ###   ########.fr       */
+/*   Updated: 2017/04/26 13:02:47 by bbauer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,10 +30,11 @@
 */
 
 void			cleanup(char **line, char ***com, char ***args, char ***env);
+char			*expand_shell_vars(char *str, char **env);
 void			minishell_loop(char **env);
 int				minishell_exec(char **args, char ***env, char *path);
 int				minishell_launcher(char **args, char ***env);
-char			*expand_shell_vars(char *str, char **env);
+void			separate_multiple_commands(char ***commands, char **line);
 char			*verify_program_exists(char **args, char ***env);
 
 /*
@@ -62,6 +63,6 @@ char			*lookup_env_value(char *key, char **env);
 ** Signal catchers
 */
 
-void			interrupt_child_process();
+void			restart_minishell(int sig);
 
 #endif

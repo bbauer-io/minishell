@@ -6,7 +6,7 @@
 /*   By: bbauer <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/21 18:44:49 by bbauer            #+#    #+#             */
-/*   Updated: 2017/04/25 15:26:29 by bbauer           ###   ########.fr       */
+/*   Updated: 2017/04/26 13:16:20 by bbauer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,15 +33,16 @@ void				cleanup(char **line, char ***com, char ***args, char ***env)
 	return ;
 }
 
-static void			init_to_null(char **line, char ***com, char ***env)
+static void			init_to_null(char **line, char ***com, char ***args)
 {
 	*line = NULL;
 	*com = NULL;
-	*env = NULL;
+	*args = NULL;
 }
 
 /*
-** The main control function for minishell. Should loop forever.
+** The main control function for minishell. Should loop forever, and never leak.
+** Each time a pointer is passed to cleanup() it's value is set to NULL.
 */
 
 void				minishell_loop(char **env)
@@ -58,11 +59,11 @@ void				minishell_loop(char **env)
 	{
 		ft_putstr("Meh$H> ");
 		get_next_line(0, &line);
-		commands = ft_strtok(line, ";");
+		separate_multiple_commands(&commands, &line);
+		commands_begin = commands;
 		while (status != MINISHELL_EXIT && commands && *commands)
 		{
 			*commands = expand_shell_vars(*commands, env);
-			commands_begin = commands;
 			args = ft_strtok(*(commands++), " ");
 			status = minishell_launcher(args, &env);
 			cleanup(NULL, NULL, &args, NULL);
@@ -83,7 +84,7 @@ int					main(int argc, char **argv, char **envp)
 
 	if (argc && argv)
 		argc++;
-	signal(SIGINT, interrupt_child_process);
+	signal(SIGINT, restart_minishell);
 	env = ft_tab_dup(envp);
 	minishell_loop(env);
 	return (EXIT_SUCCESS);
