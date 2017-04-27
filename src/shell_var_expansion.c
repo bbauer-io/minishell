@@ -6,11 +6,42 @@
 /*   By: bbauer <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/16 18:44:49 by bbauer            #+#    #+#             */
-/*   Updated: 2017/04/16 19:23:45 by bbauer           ###   ########.fr       */
+/*   Updated: 2017/04/26 18:30:48 by bbauer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
+
+/*
+** expands a '~' at str[0] into the user's home directory and concatenates the
+** rest of the string. If an argument is passed in, the user's home directory
+** alone will be returned.
+*/
+
+char			*expand_home_dir(char *str, char **env)
+{
+	char	*home;
+	char	*expanded;
+
+	home = lookup_env_value("HOME", env);
+	if (str && str[0] == '~' && str[1] != '~')
+	{
+		if (home)
+		{
+			expanded = ft_strnew(ft_strlen(home) + ft_strlen(&str[1]) + 1);
+			ft_strcpy(expanded, home);
+			ft_strcat(expanded, &str[1]);
+			ft_strdel(&home);
+			return (expanded);
+		}
+		else
+			ft_putstr_fd("Error! $HOME is undefined!\n", 2);
+	}
+	if (home)
+		return (home);
+	else
+		return (ft_strdup(str));
+}
 
 static char		*matches_env_var(char *var, int vlen, char **env)
 {
@@ -56,6 +87,11 @@ static char		*expand_individual_var(char *str, char **env, int i)
 	return (expanded);
 }
 
+/*
+** Tests for '~' at beginning of an argument and expands it to home directory.
+** Then tests for $VARIABLES and expands those based on their value in the env.
+*/
+
 char			*expand_shell_vars(char *str, char **env)
 {
 	int		i;
@@ -63,6 +99,12 @@ char			*expand_shell_vars(char *str, char **env)
 
 	i = 0;
 	expanded = str;
+	if (str[0] == '~' && str[1] != '~')
+	{
+		str = expand_home_dir(str, env);
+		free(expanded);
+		expanded = str;
+	}
 	while (str[i++] != '\0')
 		if (str[i] == '$' && ft_isalpha(str[i + 1]))
 		{

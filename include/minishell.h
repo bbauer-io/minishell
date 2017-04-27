@@ -6,7 +6,7 @@
 /*   By: bbauer <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/21 18:44:48 by bbauer            #+#    #+#             */
-/*   Updated: 2017/04/26 13:02:47 by bbauer           ###   ########.fr       */
+/*   Updated: 2017/04/26 18:23:16 by bbauer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,8 @@ void			add_to_env(char *keyvalpair, char ***env);
 void			find_and_remove_env(char *key, char ***env);
 int				is_valid_env_var(char *str);
 char			*lookup_env_value(char *key, char **env);
+void			update_env_value(char *new_kv_pair, char ***env);
+char			*build_kv_pair_string(char *key, char *value);
 
 /*
 ** Signal catchers

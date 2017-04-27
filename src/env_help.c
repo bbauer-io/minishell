@@ -6,11 +6,46 @@
 /*   By: bbauer <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/17 18:44:49 by bbauer            #+#    #+#             */
-/*   Updated: 2017/04/17 19:23:45 by bbauer           ###   ########.fr       */
+/*   Updated: 2017/04/26 18:26:04 by bbauer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
+
+/*
+** Takes 'FOO' and 'BAR' and returns 'FOO=BAR'
+*/
+
+char			*build_kv_pair_string(char *key, char *value)
+{
+	char	*new_kv_pair;
+	int		keylen;
+
+	keylen = ft_strlen(key);
+	new_kv_pair = ft_strnew(keylen + ft_strlen(value) + 1);
+	ft_strcpy(new_kv_pair, key);
+	new_kv_pair[keylen] = '=';
+	ft_strcat(new_kv_pair, value);
+	return (new_kv_pair);
+}
+
+/*
+** Takes a 'FOO=BAR', removes 'FOO' value from environment, then adds 'FOO=BAR'
+*/
+
+void			update_env_value(char *new_kv_pair, char ***env)
+{
+	char	*key;
+	int		keylen;
+
+	keylen = 0;
+	while (new_kv_pair[keylen] != '=')
+		keylen++;
+	key = ft_strndup(new_kv_pair, keylen);
+	find_and_remove_env(key, env);
+	ft_strdel(&key);
+	add_to_env(new_kv_pair, env);
+}
 
 /*
 ** Returns the value string that occurs after the end of "VALUE=" in env table.

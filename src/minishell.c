@@ -6,7 +6,7 @@
 /*   By: bbauer <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/21 18:44:49 by bbauer            #+#    #+#             */
-/*   Updated: 2017/04/26 13:16:20 by bbauer           ###   ########.fr       */
+/*   Updated: 2017/04/26 18:32:24 by bbauer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,9 +33,11 @@ void				cleanup(char **line, char ***com, char ***args, char ***env)
 	return ;
 }
 
-static void			init_to_null(char **line, char ***com, char ***args)
+static void			init_to_null(char **line, char ***com, char ***com_beg,
+																char ***args)
 {
 	*line = NULL;
+	*com_beg = NULL;
 	*com = NULL;
 	*args = NULL;
 }
@@ -53,18 +55,18 @@ void				minishell_loop(char **env)
 	char		**commands;
 	char		**commands_begin;
 
-	init_to_null(&line, &commands_begin, &args);
 	status = MINISHELL_CONTINUE;
 	while (status != MINISHELL_EXIT)
 	{
+		init_to_null(&line, &commands, &commands_begin, &args);
 		ft_putstr("Meh$H> ");
 		get_next_line(0, &line);
 		separate_multiple_commands(&commands, &line);
 		commands_begin = commands;
 		while (status != MINISHELL_EXIT && commands && *commands)
 		{
-			*commands = expand_shell_vars(*commands, env);
 			args = ft_strtok(*(commands++), " ");
+			args = expand_shell_vars(args, env); //WHILE ARGS (in expand_shell_vars)
 			status = minishell_launcher(args, &env);
 			cleanup(NULL, NULL, &args, NULL);
 		}

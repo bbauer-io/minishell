@@ -6,42 +6,11 @@
 /*   By: bbauer <bbauer@student.42.us.org>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/25 12:22:20 by bbauer            #+#    #+#             */
-/*   Updated: 2017/04/25 12:23:23 by bbauer           ###   ########.fr       */
+/*   Updated: 2017/04/26 18:20:57 by bbauer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
-
-/*
-** expands a '~' at str[0] into the user's home directory and concatenates the
-** rest of the string. If an argument is passed in, the user's home directory
-** alone will be returned.
-*/
-
-char			*expand_home_dir(char *str, char ***env)
-{
-	char	*home;
-	char	*expanded;
-
-	home = lookup_env_value("HOME", *env);
-	if (str && str[0] == '~' && str[1] != '~')
-	{
-		if (home)
-		{
-			expanded = ft_strnew(ft_strlen(home) + ft_strlen(&str[1]) + 1);
-			ft_strcpy(expanded, home);
-			ft_strcat(expanded, &str[1]);
-			ft_strdel(&home);
-			return (expanded);
-		}
-		else
-			ft_putstr_fd("Error! $HOME is undefined!\n", 2);
-	}
-	if (home)
-		return (home);
-	else
-		return (ft_strdup(str));
-}
 
 /*
 ** Retrieves the current working directory from the system and updates our PWD
@@ -56,15 +25,30 @@ static void		update_pwd_env_var(char ***env)
 	ft_bzero(cwd, PATH_MAX);
 	if (getcwd(cwd, sizeof(cwd)) != NULL)
 	{
-		find_and_remove_env("PWD", env);
-		new_pwd = ft_strnew(ft_strlen(cwd) + 5);
-		ft_strcpy(new_pwd, "PWD=");
-		ft_strcat(new_pwd, cwd);
-		add_to_env(new_pwd, env);
+		new_pwd = build_kv_pair_string("PWD", cwd);
+		update_env_value(new_pwd, env);
 		ft_strdel(&new_pwd);
 	}
 	else
 		ft_putstr_fd("Error! Directory does not exist!\n", 2);
+}
+
+/*
+** Retrieves the current working directory from the system and updates our PWD
+** env var to reflect the result.
+*/
+
+static void		update_oldpwd_env_var(char ***env)
+{
+	char	*new_oldpwd;
+	char	*tmp_value;
+
+	tmp_value = lookup_env_value("PWD", *env);
+	new_oldpwd = build_kv_pair_string("OLDPWD", tmp_value);
+	update_env_value(new_oldpwd, env);
+	ft_strdel(&tmp_value);
+	ft_strdel(&new_oldpwd);
+	return ;
 }
 
 /*
@@ -97,6 +81,7 @@ static void		change_directory(char *path, char ***env)
 	else
 	{
 		chdir(path);
+		update_oldpwd_env_var(env);
 		update_pwd_env_var(env);
 	}
 }
@@ -112,8 +97,8 @@ int				builtin_cd(char **args, char ***env)
 
 	dir = NULL;
 	path = NULL;
-	if (!args[1] || (args[1][0] == '~' && args[1][1] != '~'))
-		path = expand_home_dir(args[1], env);
+	if (args[1][0] == '-' && args[1][1] == '\0')
+		path = lookup_env_value("OLDPWD", *env);
 	else
 		path = ft_strdup(args[1]);
 	if (path)
