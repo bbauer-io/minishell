@@ -35,6 +35,7 @@ void			minishell_loop(char **env);
 int				minishell_exec(char **args, char ***env, char *path);
 int				minishell_launcher(char **args, char ***env);
 void			separate_multiple_commands(char ***commands, char **line);
+void			separate_multiple_args(char ***args, char **line);
 char			*verify_program_exists(char **args, char ***env);
 
 /*
@@ -60,6 +61,13 @@ int				is_valid_env_var(char *str);
 char			*lookup_env_value(char *key, char **env);
 void			update_env_value(char *new_kv_pair, char ***env);
 char			*build_kv_pair_string(char *key, char *value);
+
+/*
+** Helpers for command and argument parsing.
+*/
+
+void			copy_to_list(char ***commands, char **line, int i, int l_begin);
+void			trim_and_free(char **str);
 
 /*
 ** Signal catchers

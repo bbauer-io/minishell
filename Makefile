@@ -16,7 +16,6 @@ LIBFT = ./src/libft/libft.a
 CFLAGS = -Wall -Wextra -Werror
 DEBUGFLAGS =  -fsanitize=address -g -o minishell_debug
 LEAKCHECKFLAGS = -g -o minishell_leakcheck
-
 SRCF = builtin_cd.c \
 		builtin_clear.c \
 		builtin_db.c \
@@ -25,13 +24,15 @@ SRCF = builtin_cd.c \
 		builtin_pwd.c \
 		builtin_setenv.c \
 		builtin_unsetenv.c \
-		env_help.c \
+		helpers_env.c \
+		helpers_parse.c \
 		minishell.c \
 		minishell_exec.c \
+		minishell_parse_args.c \
+		minishell_parse_commands.c \
 		minishell_path_search.c \
-		minishell_parse_input.c \
-		shell_var_expansion.c \
-		signal.c \
+		minishell_var_expansion.c \
+		signal_catcher.c \
 
 SRC = $(addprefix $(SRCDIR),$(SRCF))
 OBJ = $(addprefix $(OBJDIR),$(SRCF:.c=.o))

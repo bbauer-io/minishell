@@ -46,30 +46,6 @@ static void		null_cmd_parse_error(char *line, int i)
 	return ;
 }
 
-static void		add_command(char ***commands, char **line, int i, int l_begin)
-{
-	char	**tmp_com;
-	char	*tmp;
-
-	tmp_com = *commands;
-	tmp = ft_strnew(i - l_begin);
-	ft_strncpy(tmp, &(*line)[l_begin], i - l_begin);
-	*commands = ft_tab_add_one(*commands, tmp);
-	if (tmp_com)
-		free(tmp_com);
-	return ;
-}
-
-static void		trim_and_free(char **str)
-{
-	char	*trimmed;
-
-	trimmed = ft_strtrim(*str);
-	ft_strdel(str);
-	*str = trimmed;
-	return ;
-}
-
 /*
 ** separates commands at ; unless the command is enclosed in quotations ";"
 ** *command is set to null by cleanup when before  funciton is called from
@@ -100,7 +76,7 @@ void			separate_multiple_commands(char ***commands, char **line)
 		if (i > 0 && (*line)[i] == ';' && ((*line)[i - 1] == ';'))
 			return (null_cmd_parse_error(*line, i));
 		if ((*line)[i] == '\0' || (*line)[i] == ';')
-			add_command(commands, line, i, l_begin);
+			copy_to_list(commands, line, i, l_begin);
 		i++;
 	}
 }
