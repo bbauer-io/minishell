@@ -1,3 +1,4 @@
+#include "../include/minishell.h"
 
 /*
 ** Copies a section of a string to a new entry in a char ** table

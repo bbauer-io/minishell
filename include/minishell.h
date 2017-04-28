@@ -30,7 +30,7 @@
 */
 
 void			cleanup(char **line, char ***com, char ***args, char ***env);
-char			*expand_shell_vars(char *str, char **env);
+void			expand_shell_vars(char **args, char **env);
 void			minishell_loop(char **env);
 int				minishell_exec(char **args, char ***env, char *path);
 int				minishell_launcher(char **args, char ***env);

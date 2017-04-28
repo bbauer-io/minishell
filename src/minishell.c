@@ -46,16 +46,6 @@ static void			init_to_null(char **line, char ***com, char ***com_beg,
 ** This will control function will execute for each command in a line of input.
 */
 
-int					minishell_command_loop()
-{
-	args = minishell_parse_args(*(commands++), " ");
-	args = expand_shell_vars(args, env);
-	status = minishell_launcher(args, &env);
-	cleanup(NULL, NULL, &args, NULL);
-
-	return (status);
-}
-
 /*
 ** The main control function for minishell. Should loop forever, and never leak.
 ** Each time a pointer is passed to cleanup() it's value is set to NULL.
@@ -80,7 +70,7 @@ void				minishell_loop(char **env)
 		while (status != MINISHELL_EXIT && commands && *commands)
 		{
 			separate_multiple_args(&args, commands++);
-			args = expand_shell_vars(args, env);
+			expand_shell_vars(args, env); // might need this to return char **?
 			status = minishell_launcher(args, &env);
 			cleanup(NULL, NULL, &args, NULL);
 		}

@@ -92,25 +92,30 @@ static char		*expand_individual_var(char *str, char **env, int i)
 ** Then tests for $VARIABLES and expands those based on their value in the env.
 */
 
-char			*expand_shell_vars(char *str, char **env)
+void			expand_shell_vars(char **args, char **env)
 {
 	int		i;
 	char	*expanded;
 
-	i = 0;
-	expanded = str;
-	if (str[0] == '~' && str[1] != '~')
+	while (*args)
 	{
-		str = expand_home_dir(str, env);
-		free(expanded);
-		expanded = str;
-	}
-	while (str[i++] != '\0')
-		if (str[i] == '$' && ft_isalpha(str[i + 1]))
+		i = 0;
+		expanded = *args;
+		if ((*args)[0] == '~' && (*args)[1] != '~')
 		{
-			str = expand_individual_var(str, env, i);
+			*args = expand_home_dir(*args, env);
 			free(expanded);
-			expanded = str;
+			expanded = *args;
 		}
-	return (expanded);
+		expanded = *args;
+		while ((*args)[i++] != '\0')
+			if ((*args)[i] == '$' && ft_isalpha((*args)[i + 1]))
+			{
+				*args = expand_individual_var(*args, env, i);
+				free(expanded);
+				expanded = *args;
+			}
+		args++;
+	}
+	return ;
 }
