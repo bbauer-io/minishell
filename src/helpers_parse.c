@@ -1,4 +1,43 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   helpers_parse.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: bbauer <bbauer@student.42.us.org>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2017/04/28 14:18:53 by bbauer            #+#    #+#             */
+/*   Updated: 2017/04/28 14:18:54 by bbauer           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../include/minishell.h"
+
+/*
+** Copies a section of a string to a char ** table, if the string is
+** encapsulated with " " marks, they will be ignored.
+*/
+
+void			copy_to_args_lst(char ***args, char **line, int i, int l_begin)
+{
+	char	**tmp_args;
+	char	*tmp;
+
+	tmp_args = *args;
+	if ((*line)[l_begin] == '\"')
+	{
+		tmp = ft_strnew(i - l_begin - 2);
+		ft_strncpy(tmp, &(*line)[l_begin + 1], i - l_begin - 2);
+	}
+	else
+	{
+		tmp = ft_strnew(i - l_begin);
+		ft_strncpy(tmp, &(*line)[l_begin], i - l_begin);
+	}
+	*args = ft_tab_add_one(*args, tmp);
+	if (tmp_args)
+		free(tmp_args);
+	return ;
+}
 
 /*
 ** Copies a section of a string to a new entry in a char ** table

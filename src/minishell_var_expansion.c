@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   shell_var_expansion.c                              :+:      :+:    :+:   */
+/*   minishell_var_expansion.c                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bbauer <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/16 18:44:49 by bbauer            #+#    #+#             */
-/*   Updated: 2017/04/26 18:30:48 by bbauer           ###   ########.fr       */
+/*   Updated: 2017/04/28 14:10:59 by bbauer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,21 +100,22 @@ void			expand_shell_vars(char **args, char **env)
 	while (*args)
 	{
 		i = 0;
-		expanded = *args;
 		if ((*args)[0] == '~' && (*args)[1] != '~')
 		{
-			*args = expand_home_dir(*args, env);
-			free(expanded);
-			expanded = *args;
+			expanded = expand_home_dir(*args, env);
+			ft_strdel(args);
+			*args = expanded;
 		}
-		expanded = *args;
-		while ((*args)[i++] != '\0')
+		while ((*args)[i] != '\0')
+		{
 			if ((*args)[i] == '$' && ft_isalpha((*args)[i + 1]))
 			{
-				*args = expand_individual_var(*args, env, i);
-				free(expanded);
-				expanded = *args;
+				expanded = expand_individual_var(*args, env, i);
+				ft_strdel(args);
+				*args = expanded;
 			}
+			i++;
+		}
 		args++;
 	}
 	return ;

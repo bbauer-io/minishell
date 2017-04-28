@@ -6,11 +6,13 @@
 /*   By: bbauer <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/21 18:44:49 by bbauer            #+#    #+#             */
-/*   Updated: 2017/04/26 18:32:24 by bbauer           ###   ########.fr       */
+/*   Updated: 2017/04/28 15:34:18 by bbauer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
+
+char			*g_line;
 
 /*
 ** Frees the variables passed in and sets their values to NULL.
@@ -43,10 +45,6 @@ static void			init_to_null(char **line, char ***com, char ***com_beg,
 }
 
 /*
-** This will control function will execute for each command in a line of input.
-*/
-
-/*
 ** The main control function for minishell. Should loop forever, and never leak.
 ** Each time a pointer is passed to cleanup() it's value is set to NULL.
 */
@@ -54,7 +52,6 @@ static void			init_to_null(char **line, char ***com, char ***com_beg,
 void				minishell_loop(char **env)
 {
 	int			status;
-	char		*line;
 	char		**args;
 	char		**commands;
 	char		**commands_begin;
@@ -62,21 +59,21 @@ void				minishell_loop(char **env)
 	status = MINISHELL_CONTINUE;
 	while (status != MINISHELL_EXIT)
 	{
-		init_to_null(&line, &commands, &commands_begin, &args);
+		init_to_null(&g_line, &commands, &commands_begin, &args);
 		ft_putstr("Meh$H> ");
-		get_next_line(0, &line);
-		separate_multiple_commands(&commands, &line);
+		get_next_line(0, &g_line);
+		separate_multiple_commands(&commands, &g_line);
 		commands_begin = commands;
 		while (status != MINISHELL_EXIT && commands && *commands)
 		{
 			separate_multiple_args(&args, commands++);
-			expand_shell_vars(args, env); // might need this to return char **?
+			expand_shell_vars(args, env);
 			status = minishell_launcher(args, &env);
 			cleanup(NULL, NULL, &args, NULL);
 		}
-		cleanup(&line, &commands_begin, &args, NULL);
+		cleanup(&g_line, &commands_begin, &args, NULL);
 	}
-	cleanup(&line, &commands_begin, &args, &env);
+	cleanup(&g_line, &commands_begin, &args, &env);
 	return ;
 }
 

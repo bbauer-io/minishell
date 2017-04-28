@@ -6,11 +6,13 @@
 /*   By: bbauer <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/11 18:44:49 by bbauer            #+#    #+#             */
-/*   Updated: 2017/04/25 15:27:50 by bbauer           ###   ########.fr       */
+/*   Updated: 2017/04/28 15:35:06 by bbauer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
+
+pid_t			g_wpid = 0;
 
 /*
 ** Checks if the command issued was a builtin function and, if so, will launch
@@ -96,9 +98,10 @@ int					minishell_exec(char **args, char ***env, char *path)
 		ft_putstr_fd("minishell: fork() error!\n", 2);
 	else
 	{
-		waitpid(pid, &status, WUNTRACED);
+		g_wpid = waitpid(pid, &status, WUNTRACED);
 		while (!WIFEXITED(status) && !WIFSIGNALED(status))
-			waitpid(pid, &status, WUNTRACED);
+			g_wpid = waitpid(pid, &status, WUNTRACED);
+		g_wpid = 0;
 	}
 	return (MINISHELL_CONTINUE);
 }

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env_help.c                                         :+:      :+:    :+:   */
+/*   helpers_env.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bbauer <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/17 18:44:49 by bbauer            #+#    #+#             */
-/*   Updated: 2017/04/26 18:26:04 by bbauer           ###   ########.fr       */
+/*   Updated: 2017/04/28 15:03:20 by bbauer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ void			update_env_value(char *new_kv_pair, char ***env)
 ** Returns the value string that occurs after the end of "VALUE=" in env table.
 */
 
-char		*lookup_env_value(char *key, char **env)
+char			*lookup_env_value(char *key, char **env)
 {
 	char	*value;
 	int		key_len;
@@ -74,7 +74,7 @@ char		*lookup_env_value(char *key, char **env)
 ** characters and is in the valid format (KEY=VALUE).
 */
 
-int			is_valid_env_var(char *str)
+int				is_valid_env_var(char *str)
 {
 	int		i;
 	int		has_value;
@@ -104,7 +104,7 @@ int			is_valid_env_var(char *str)
 ** table and the old will be freed.
 */
 
-void		find_and_remove_env(char *key, char ***env)
+void			find_and_remove_env(char *key, char ***env)
 {
 	int		i;
 	int		tab_len;
@@ -125,24 +125,6 @@ void		find_and_remove_env(char *key, char ***env)
 			return ;
 		}
 		i++;
-	}
-	return ;
-}
-
-/*
-** Adds a single entry to the env var table.
-*/
-
-void		add_to_env(char *keyvalpair, char ***env)
-{
-	char	**new_env;
-
-	new_env = NULL;
-	new_env = ft_tab_add_one(*env, keyvalpair);
-	if (new_env)
-	{
-		free(*env);
-		*env = new_env;
 	}
 	return ;
 }

@@ -6,7 +6,7 @@
 /*   By: bbauer <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/21 18:44:48 by bbauer            #+#    #+#             */
-/*   Updated: 2017/04/26 18:23:16 by bbauer           ###   ########.fr       */
+/*   Updated: 2017/04/28 13:54:14 by bbauer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,7 @@ char			*build_kv_pair_string(char *key, char *value);
 ** Helpers for command and argument parsing.
 */
 
+void			copy_to_args_lst(char ***args, char **line, int i, int l_begin);
 void			copy_to_list(char ***commands, char **line, int i, int l_begin);
 void			trim_and_free(char **str);
 
