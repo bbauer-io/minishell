@@ -1,9 +1,0 @@
-maybe expand_shell_vars() JUST BEFORE separate_multiple_args()
-	-would able to expand '"$VAR"!' into 'VALUE!' 
-	-currently it expands to 'VALUE !' because they are seen as two different args...
-	-probably fine either way. shouldn't waste time.
-	-could get same result with '$VAR!', so a syntax exists to reach that result
-
-better global variable usage.
-	-line is necessary
-	-use a flag for entry and exit of get_next_line() instead of g_pid
