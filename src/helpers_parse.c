@@ -34,6 +34,7 @@ void			copy_to_args_lst(char ***args, char **line, int i, int l_begin)
 		ft_strncpy(tmp, &(*line)[l_begin], i - l_begin);
 	}
 	*args = ft_tab_add_one(*args, tmp);
+	ft_strdel(&tmp);
 	if (tmp_args)
 		free(tmp_args);
 	return ;
@@ -53,6 +54,7 @@ void			copy_to_list(char ***commands, char **line, int i, int l_begin)
 	tmp = ft_strnew(i - l_begin);
 	ft_strncpy(tmp, &(*line)[l_begin], i - l_begin);
 	*commands = ft_tab_add_one(*commands, tmp);
+	ft_strdel(&tmp);
 	if (tmp_com)
 		free(tmp_com);
 	return ;
