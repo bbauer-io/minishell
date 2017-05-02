@@ -6,7 +6,7 @@
 /*   By: bbauer <bbauer@student.42.us.org>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/25 12:22:20 by bbauer            #+#    #+#             */
-/*   Updated: 2017/04/26 18:20:57 by bbauer           ###   ########.fr       */
+/*   Updated: 2017/05/01 20:17:10 by bbauer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,11 +44,12 @@ static void		update_oldpwd_env_var(char ***env)
 	char	*tmp_value;
 
 	tmp_value = lookup_env_value("PWD", *env);
+	if (!tmp_value)
+		return ;
 	new_oldpwd = build_kv_pair_string("OLDPWD", tmp_value);
 	update_env_value(new_oldpwd, env);
 	ft_strdel(&tmp_value);
 	ft_strdel(&new_oldpwd);
-	return ;
 }
 
 /*
@@ -64,20 +65,11 @@ static void		change_directory(char *path, char ***env)
 	struct stat		st;
 
 	if (stat(path, &st) == -1)
-	{
-		ft_putstr_fd("cd: No such directory: ", 2);
-		ft_putendl_fd(path, 2);
-	}
+		ft_put_err("cd: No such directory: ", path);
 	else if (!(S_ISDIR(st.st_mode)))
-	{
-		ft_putstr_fd("cd: Is not a directory: ", 2);
-		ft_putendl_fd(path, 2);
-	}
+		ft_put_err("cd: Is not a directory: ", path);
 	else if (access(path, X_OK) == -1)
-	{
-		ft_putstr_fd("cd: Permission denied: ", 2);
-		ft_putendl_fd(path, 2);
-	}
+		ft_put_err("cd: Permission denied: ", path);
 	else
 	{
 		chdir(path);
@@ -97,10 +89,12 @@ int				builtin_cd(char **args, char ***env)
 
 	dir = NULL;
 	path = NULL;
-	if (args[1][0] == '-' && args[1][1] == '\0')
+	if (args && *args && args[1] && args[1][0] == '-' && args[1][1] == '\0')
 		path = lookup_env_value("OLDPWD", *env);
-	else
+	else if (args && *args && args[1])
 		path = ft_strdup(args[1]);
+	else
+		path = lookup_env_value("HOME", *env);
 	if (path)
 	{
 		dir = opendir(path);
@@ -110,6 +104,6 @@ int				builtin_cd(char **args, char ***env)
 		ft_strdel(&path);
 	}
 	else
-		ft_putstr_fd("cd failed! Couln't parse a valid path!\n", 2);
+		ft_put_err("cd: No such directory: ", args[1]);
 	return (MINISHELL_CONTINUE);
 }

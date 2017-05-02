@@ -6,7 +6,7 @@
 /*   By: bbauer <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/21 18:44:49 by bbauer            #+#    #+#             */
-/*   Updated: 2017/04/28 15:34:18 by bbauer           ###   ########.fr       */
+/*   Updated: 2017/05/01 23:30:42 by bbauer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,11 +60,10 @@ void				minishell_loop(char **env)
 	while (status != MINISHELL_EXIT)
 	{
 		init_to_null(&g_line, &commands, &commands_begin, &args);
-		ft_putstr("Meh$H> ");
-		get_next_line(0, &g_line);
+		status = minishell_prompt(&g_line);
 		separate_multiple_commands(&commands, &g_line);
 		commands_begin = commands;
-		while (status != MINISHELL_EXIT && commands && *commands)
+		while (status != MINISHELL_EXIT && commands && *commands && **commands)
 		{
 			separate_multiple_args(&args, commands++);
 			expand_shell_vars(args, env);
@@ -87,8 +86,9 @@ int					main(int argc, char **argv, char **envp)
 
 	if (argc && argv)
 		argc++;
-	signal(SIGINT, restart_minishell);
 	env = ft_tab_dup(envp);
+	update_shell_level(&env);
+	signal(SIGINT, SIG_IGN);
 	minishell_loop(env);
 	return (EXIT_SUCCESS);
 }

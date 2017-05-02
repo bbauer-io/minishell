@@ -6,13 +6,11 @@
 /*   By: bbauer <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/11 18:44:49 by bbauer            #+#    #+#             */
-/*   Updated: 2017/04/28 15:35:06 by bbauer           ###   ########.fr       */
+/*   Updated: 2017/05/01 22:35:14 by bbauer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
-
-pid_t			g_wpid = 0;
 
 /*
 ** Checks if the command issued was a builtin function and, if so, will launch
@@ -24,7 +22,7 @@ static int			minishell_builtin(char **args, char ***env)
 	if (ft_strequ(args[0], "cd"))
 		return (builtin_cd(args, env));
 	else if (ft_strequ(args[0], "exit"))
-		return (MINISHELL_EXIT);
+		minishell_exit(args);
 	else if (ft_strequ(args[0], "env"))
 		return (builtin_env(args, env));
 	else if (ft_strequ(args[0], "setenv"))
@@ -39,8 +37,7 @@ static int			minishell_builtin(char **args, char ***env)
 		return (builtin_clear());
 	else if (ft_strequ(args[0], "pwd"))
 		return (builtin_pwd());
-	else
-		return (NOT_BUILTIN);
+	return (NOT_BUILTIN);
 }
 
 /*
@@ -54,23 +51,25 @@ int					minishell_launcher(char **args, char ***env)
 {
 	int			status;
 	char		*confirmed_path;
+	int			access_error;
 
+	status = MINISHELL_CONTINUE;
+	access_error = 0;
 	confirmed_path = NULL;
-	if (args[0] == NULL || *(args[0]) == '\0')
+	if (args && (args[0] == NULL || *(args[0]) == '\0'))
 		return (MINISHELL_CONTINUE);
-	if ((status = minishell_builtin(args, env)) == NOT_BUILTIN)
+	if (args && (status = minishell_builtin(args, env)) == NOT_BUILTIN)
 	{
-		confirmed_path = verify_program_exists(args, env);
+		confirmed_path = verify_program_exists(args, env, &access_error);
 		if (confirmed_path)
 		{
 			status = minishell_exec(args, env, confirmed_path);
 			ft_strdel(&confirmed_path);
 		}
+		else if (access_error)
+			ft_put_err("permission denied!: ", args[0]);
 		else
-		{
-			ft_putstr_fd("minishell: program not found!: ", 2);
-			ft_putendl_fd(args[0], 2);
-		}
+			ft_put_err("program not found!: ", args[0]);
 		return (status != 2 ? status : MINISHELL_CONTINUE);
 	}
 	return (status);
@@ -90,18 +89,18 @@ int					minishell_exec(char **args, char ***env, char *path)
 	pid = fork();
 	if (pid == 0)
 	{
+		signal(SIGINT, SIG_DFL);
 		if (execve(path, args, *env) == -1)
-			ft_putstr_fd("minishell: execve() failed!\n", 2);
+			ft_put_err("execve() failed!", NULL);
 		exit(EXIT_FAILURE);
 	}
 	else if (pid < 0)
-		ft_putstr_fd("minishell: fork() error!\n", 2);
+		ft_put_err("fork() error!", NULL);
 	else
 	{
-		g_wpid = waitpid(pid, &status, WUNTRACED);
+		waitpid(pid, &status, WUNTRACED);
 		while (!WIFEXITED(status) && !WIFSIGNALED(status))
-			g_wpid = waitpid(pid, &status, WUNTRACED);
-		g_wpid = 0;
+			waitpid(pid, &status, WUNTRACED);
 	}
 	return (MINISHELL_CONTINUE);
 }

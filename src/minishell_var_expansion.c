@@ -6,7 +6,7 @@
 /*   By: bbauer <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/16 18:44:49 by bbauer            #+#    #+#             */
-/*   Updated: 2017/04/28 14:10:59 by bbauer           ###   ########.fr       */
+/*   Updated: 2017/05/01 22:32:26 by bbauer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@ void			expand_shell_vars(char **args, char **env)
 	int		i;
 	char	*expanded;
 
-	while (*args)
+	while (args && *args)
 	{
 		i = 0;
 		if ((*args)[0] == '~' && (*args)[1] != '~')

@@ -6,7 +6,7 @@
 /*   By: bbauer <bbauer@student.42.us.org>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/25 11:25:14 by bbauer            #+#    #+#             */
-/*   Updated: 2017/04/25 12:24:58 by bbauer           ###   ########.fr       */
+/*   Updated: 2017/05/01 21:58:04 by bbauer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,8 @@ static char			*build_path_str(char *path, char *prog_name)
 ** specified name and returns the first one it finds.
 */
 
-static char			*search_paths_for_program(char ***env, char *prog_name)
+static char			*search_paths_for_program(char ***env, char *prog_name,
+																int *access_err)
 {
 	char		*path_str;
 	char		**path_tab;
@@ -69,7 +70,11 @@ static char			*search_paths_for_program(char ***env, char *prog_name)
 		if (access(path_str, X_OK) == 0)
 			found = 1;
 		else
+		{
+			if (access(path_str, F_OK) == 0)
+				*access_err = 1;
 			ft_strdel(&path_str);
+		}
 		i++;
 	}
 	if (path_tab)
@@ -83,7 +88,7 @@ static char			*search_paths_for_program(char ***env, char *prog_name)
 ** if the specified executable is in the current working directory.
 */
 
-char				*verify_program_exists(char **args, char ***env)
+char				*verify_program_exists(char **args, char ***env, int *err)
 {
 	char		*confirmed_path;
 	char		*relative_path;
@@ -97,7 +102,7 @@ char				*verify_program_exists(char **args, char ***env)
 		ft_strcat(relative_path, args[0]);
 	}
 	if (args[0][0] != '.' && args[0][0] != '/' && !ft_strchr(args[0], '/'))
-		confirmed_path = search_paths_for_program(env, args[0]);
+		confirmed_path = search_paths_for_program(env, args[0], err);
 	else if (access(args[0], X_OK) == 0)
 		confirmed_path = ft_strdup(args[0]);
 	else if (relative_path && access(relative_path, X_OK) == 0)

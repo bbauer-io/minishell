@@ -6,7 +6,7 @@
 /*   By: bbauer <bbauer@student.42.us.org>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/26 10:24:23 by bbauer            #+#    #+#             */
-/*   Updated: 2017/04/28 13:56:33 by bbauer           ###   ########.fr       */
+/*   Updated: 2017/05/01 23:01:17 by bbauer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,8 @@ void			separate_multiple_commands(char ***commands, char **line)
 		l_begin = i;
 		while ((*line)[i] && (*line)[i] != ';')
 		{
+			if ((*line)[i] == '\n' || (*line)[i] == '\t')
+				(*line)[i] = ' ';
 			if ((*line)[i] == '\"')
 				if (increment_index_to_end_quote(&i, *line) == 0)
 					return ;

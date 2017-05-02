@@ -6,28 +6,40 @@
 /*   By: bbauer <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/13 18:44:49 by bbauer            #+#    #+#             */
-/*   Updated: 2017/04/28 14:26:01 by bbauer           ###   ########.fr       */
+/*   Updated: 2017/05/01 21:35:45 by bbauer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
 /*
-** Adds a single entry to the env var table.
+** Removes pesky quotes from an otherwise perfectly good env variable kv pair.
 */
 
-void		add_to_env(char *keyvalpair, char ***env)
+static int		fix_quote_env_var(char *str)
 {
-	char	**new_env;
+	char	*qstart;
+	int		i;
+	char	*end_quote;
 
-	new_env = NULL;
-	new_env = ft_tab_add_one(*env, keyvalpair);
-	if (new_env)
-	{
-		free(*env);
-		*env = new_env;
-	}
-	return ;
+	i = 0;
+	if (!str || (!ft_isalpha(str[i++]) && !(str[0] == '_')))
+		return (0);
+	while (ft_isalnum(str[i]) || str[i] == '_')
+		i++;
+	if (str[i++] != '=')
+		return (0);
+	qstart = &str[i];
+	if (*qstart == '\"')
+		if ((end_quote = ft_strchr(qstart + 1, '\"')))
+			if (end_quote[1] == '\0')
+			{
+				ft_memccpy(qstart, qstart + 1, '\"', end_quote - qstart);
+				*end_quote = '\0';
+				*(end_quote - 1) = '\0';
+				return (1);
+			}
+	return (0);
 }
 
 /*
@@ -36,13 +48,13 @@ void		add_to_env(char *keyvalpair, char ***env)
 ** key=value string.
 */
 
-int			builtin_setenv(char **args, char ***env)
+int				builtin_setenv(char **args, char ***env)
 {
 	int		i;
 	char	*key;
 
 	i = 1;
-	while (args[i])
+	while (args[i] && (is_valid_env_var(args[i]) || fix_quote_env_var(args[i])))
 	{
 		key = ft_strcdup(args[i], '=');
 		find_and_remove_env(key, env);

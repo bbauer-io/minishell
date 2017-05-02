@@ -6,13 +6,13 @@
 #    By: bbauer <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/03/21 18:44:49 by bbauer            #+#    #+#              #
-#    Updated: 2017/04/26 13:01:20 by bbauer           ###   ########.fr        #
+#    Updated: 2017/05/01 21:58:43 by bbauer           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = minishell
 CC = gcc
-LIBFT = ./src/libft/libft.a
+LIBFT = ./libft/libft.a
 CFLAGS = -Wall -Wextra -Werror
 DEBUGFLAGS =  -fsanitize=address -g -o minishell_debug
 LEAKCHECKFLAGS = -g -o minishell_leakcheck
@@ -21,16 +21,20 @@ SRCF = builtin_cd.c \
 		builtin_db.c \
 		builtin_echo.c \
 		builtin_env.c \
+		builtin_exit.c \
 		builtin_pwd.c \
 		builtin_setenv.c \
 		builtin_unsetenv.c \
 		helpers_env.c \
+		helpers_env_b.c \
 		helpers_parse.c \
 		minishell.c \
+		minishell_error.c \
 		minishell_exec.c \
 		minishell_parse_args.c \
 		minishell_parse_commands.c \
 		minishell_path_search.c \
+		minishell_prompt.c \
 		minishell_var_expansion.c \
 		signal_catcher.c \
 
@@ -39,7 +43,7 @@ OBJ = $(addprefix $(OBJDIR),$(SRCF:.c=.o))
 
 OBJDIR = ./obj/
 SRCDIR = ./src/
-LIBDIR = ./src/libft/
+LIBDIR = ./libft/
 INCDIR = ./include/
 
 .PHONY: $(NAME), all, clean, fclean, re, $(LIBFT)

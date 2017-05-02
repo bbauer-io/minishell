@@ -1,29 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   signal_catcher.c                                   :+:      :+:    :+:   */
+/*   minishell_prompt.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bbauer <bbauer@student.42.us.org>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/04/25 11:25:07 by bbauer            #+#    #+#             */
-/*   Updated: 2017/04/30 21:23:23 by bbauer           ###   ########.fr       */
+/*   Created: 2017/04/30 21:07:13 by bbauer            #+#    #+#             */
+/*   Updated: 2017/05/01 22:34:01 by bbauer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-extern char		*g_line;
-
 /*
-** Frees the g_line pointer. get_next_line() will see that the pointer is NULL
-** and start over.
+** Prints a prompt and waits for standard input. The g_reading variable is to
+** help manage ctrl-c.
 */
 
-void		reset_prompt(int sig)
+int			minishell_prompt(char **line)
 {
-	if (sig == SIGINT)
-	{
-		ft_strdel(&g_line);
-		ft_putstr("\nMeh$H> ");
-	}
+	int		status;
+
+	ft_putstr("Meh$H> ");
+	signal(SIGINT, reset_prompt);
+	status = get_next_line(0, line);
+	signal(SIGINT, SIG_IGN);
+	return (status);
 }
