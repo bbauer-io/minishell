@@ -6,7 +6,7 @@
 #    By: bbauer <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/03/21 18:44:49 by bbauer            #+#    #+#              #
-#    Updated: 2017/05/01 21:58:43 by bbauer           ###   ########.fr        #
+#    Updated: 2017/05/04 10:45:50 by bbauer           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,6 +16,11 @@ LIBFT = ./libft/libft.a
 CFLAGS = -Wall -Wextra -Werror
 DEBUGFLAGS =  -fsanitize=address -g -o minishell_debug
 LEAKCHECKFLAGS = -g -o minishell_leakcheck
+OBJDIR = ./obj/
+SRCDIR = ./src/
+LIBDIR = ./libft/
+INCDIR = ./include/
+
 SRCF = builtin_cd.c \
 		builtin_clear.c \
 		builtin_db.c \
@@ -41,12 +46,7 @@ SRCF = builtin_cd.c \
 SRC = $(addprefix $(SRCDIR),$(SRCF))
 OBJ = $(addprefix $(OBJDIR),$(SRCF:.c=.o))
 
-OBJDIR = ./obj/
-SRCDIR = ./src/
-LIBDIR = ./libft/
-INCDIR = ./include/
-
-.PHONY: $(NAME), all, clean, fclean, re, $(LIBFT)
+.PHONY: all, clean, fclean, re
 
 all: $(LIBFT) $(NAME)
 

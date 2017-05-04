@@ -6,7 +6,7 @@
 #    By: bbauer <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/11/03 16:20:35 by bbauer            #+#    #+#              #
-#    Updated: 2017/03/21 17:24:29 by bbauer           ###   ########.fr        #
+#    Updated: 2017/05/04 10:47:07 by bbauer           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -38,6 +38,8 @@ OBJDIR = ./obj/
 OPT = $(SRC:.c=.o)
 HEADER = ./libft.h
 FLAGS = -c -Wall -Wextra -Werror
+
+.PHONY: all, clean, fclean, re
 
 all: $(NAME)
 
