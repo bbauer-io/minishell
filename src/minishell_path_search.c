@@ -6,7 +6,7 @@
 /*   By: bbauer <bbauer@student.42.us.org>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/25 11:25:14 by bbauer            #+#    #+#             */
-/*   Updated: 2017/05/01 21:58:04 by bbauer           ###   ########.fr       */
+/*   Updated: 2017/05/05 17:53:26 by bbauer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,6 +105,8 @@ char				*verify_program_exists(char **args, char ***env, int *err)
 		confirmed_path = search_paths_for_program(env, args[0], err);
 	else if (access(args[0], X_OK) == 0)
 		confirmed_path = ft_strdup(args[0]);
+	else if (access(args[0], F_OK) == 0)
+		*err = 1;
 	else if (relative_path && access(relative_path, X_OK) == 0)
 		confirmed_path = ft_strdup(args[0]);
 	if (relative_path)
