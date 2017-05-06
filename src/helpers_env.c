@@ -6,7 +6,7 @@
 /*   By: bbauer <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/17 18:44:49 by bbauer            #+#    #+#             */
-/*   Updated: 2017/05/01 20:03:48 by bbauer           ###   ########.fr       */
+/*   Updated: 2017/05/05 17:00:37 by bbauer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ int				is_valid_env_var(char *str)
 		i++;
 	if (str[i++] != '=')
 		return (0);
-	while (ft_isalnum(str[i]) || str[i] == '_')
+	while (str[i] >= 42 && str[i] <= 125)
 	{
 		i++;
 		has_value = 1;
