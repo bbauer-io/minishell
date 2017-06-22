@@ -22,7 +22,7 @@ How to run **meh$h**:
 git clone https://github.com/brianbauer42/mehShell.git
 cd mehShell
 make
-./minishell
+./mehSh
 ```
 **Despite the name, I'm proud of my stalwart *meh*$hell and looking forward to improving it.**
 
