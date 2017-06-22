@@ -6,7 +6,7 @@
 /*   By: bbauer <bbauer@student.42.us.org>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/01 21:35:49 by bbauer            #+#    #+#             */
-/*   Updated: 2017/05/01 23:32:39 by bbauer           ###   ########.fr       */
+/*   Updated: 2017/06/22 15:27:22 by bbauer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,33 +88,4 @@ char			**build_new_args(char **args)
 		args++;
 	new_args = ft_tab_dup(args);
 	return (new_args);
-}
-
-/*
-** Updates the SHLVL env variable at launch.
-*/
-
-void			update_shell_level(char ***env)
-{
-	char	*lvl_str;
-	char	*tmp;
-	char	*kv_pair;
-	int		level;
-
-	lvl_str = NULL;
-	lvl_str = lookup_env_value("SHLVL", *env);
-	if (lvl_str)
-	{
-		level = ft_atoi(lvl_str);
-		level++;
-		tmp = ft_itoa(level);
-		if (tmp)
-		{
-			kv_pair = build_kv_pair_string("SHLVL", tmp);
-			ft_strdel(&tmp);
-			update_env_value(kv_pair, env);
-			ft_strdel(&kv_pair);
-		}
-		ft_strdel(&lvl_str);
-	}
 }

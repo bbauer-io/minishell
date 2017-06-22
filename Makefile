@@ -6,7 +6,7 @@
 #    By: bbauer <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/03/21 18:44:49 by bbauer            #+#    #+#              #
-#    Updated: 2017/05/04 10:45:50 by bbauer           ###   ########.fr        #
+#    Updated: 2017/06/22 15:42:27 by bbauer           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,7 +23,7 @@ INCDIR = ./include/
 
 SRCF = builtin_cd.c \
 		builtin_clear.c \
-		builtin_db.c \
+		builtin_author.c \
 		builtin_echo.c \
 		builtin_env.c \
 		builtin_exit.c \
@@ -33,6 +33,7 @@ SRCF = builtin_cd.c \
 		helpers_env.c \
 		helpers_env_b.c \
 		helpers_parse.c \
+		helpers_setup.c \
 		minishell.c \
 		minishell_error.c \
 		minishell_exec.c \

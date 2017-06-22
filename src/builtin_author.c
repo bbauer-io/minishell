@@ -1,20 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtin_db.c                                       :+:      :+:    :+:   */
+/*   builtin_author.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bbauer <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/13 18:44:49 by bbauer            #+#    #+#             */
-/*   Updated: 2017/04/13 19:23:45 by bbauer           ###   ########.fr       */
+/*   Updated: 2017/06/22 15:24:34 by bbauer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-int		builtin_db(void)
+int		builtin_author(void)
 {
-	ft_putstr_fd("\n __ \n/   \\\n|o o|\n| > |\n|__/|  /\\\n|   |_ ||", 2);
-	ft_putstr_fd("\n|   | \\||\n|  J   )_)\n \\____/\n    |\n  =\'\n", 2);
+	ft_putstr("\nmeh$hell was written in C by Brian Bauer at 42\n");
+	ft_putstr("Join us! Visit 42.us.org\n");
 	return (MINISHELL_CONTINUE);
 }

@@ -6,7 +6,7 @@
 /*   By: bbauer <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/11 18:44:49 by bbauer            #+#    #+#             */
-/*   Updated: 2017/05/01 22:35:14 by bbauer           ###   ########.fr       */
+/*   Updated: 2017/06/22 15:21:50 by bbauer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,8 @@ static int			minishell_builtin(char **args, char ***env)
 		return (builtin_unsetenv(args, env));
 	else if (ft_strequ(args[0], "echo"))
 		return (builtin_echo(args));
-	else if (ft_strequ(args[0], "dickbutt"))
-		return (builtin_db());
+	else if (ft_strequ(args[0], "author"))
+		return (builtin_author());
 	else if (ft_strequ(args[0], "clear"))
 		return (builtin_clear());
 	else if (ft_strequ(args[0], "pwd"))

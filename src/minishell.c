@@ -6,7 +6,7 @@
 /*   By: bbauer <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/21 18:44:49 by bbauer            #+#    #+#             */
-/*   Updated: 2017/05/01 23:30:42 by bbauer           ###   ########.fr       */
+/*   Updated: 2017/06/22 15:37:10 by bbauer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,8 @@ int					main(int argc, char **argv, char **envp)
 	if (argc && argv)
 		argc++;
 	env = ft_tab_dup(envp);
-	update_shell_level(&env);
+	update_shell_level_env_var(&env);
+	update_shell_env_var(&env);
 	signal(SIGINT, SIG_IGN);
 	minishell_loop(env);
 	return (EXIT_SUCCESS);

@@ -6,7 +6,7 @@
 /*   By: bbauer <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/21 18:44:48 by bbauer            #+#    #+#             */
-/*   Updated: 2017/05/01 23:24:22 by bbauer           ###   ########.fr       */
+/*   Updated: 2017/06/22 15:42:01 by bbauer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ int				builtin_cd(char **args, char ***env);
 int				builtin_env(char **args, char ***env);
 int				builtin_setenv(char **args, char ***env);
 int				builtin_unsetenv(char **args, char ***env);
-int				builtin_db(void);
+int				builtin_author(void);
 int				builtin_clear(void);
 int				builtin_pwd(void);
 
@@ -66,7 +66,8 @@ void			update_env_value(char *new_kv_pair, char ***env);
 char			*build_kv_pair_string(char *key, char *value);
 char			**build_new_env(char **args);
 char			**build_new_args(char **args);
-void			update_shell_level(char ***env);
+void			update_shell_level_env_var(char ***env);
+void			update_shell_env_var(char ***env);
 
 /*
 ** Helpers for command and argument parsing.

@@ -7,7 +7,7 @@ WELL, THEN! What *does* it do?
 It does quite a lot actually! Well beyond just lunching programs with execve()!.
 * Has useful builtin functions **cd, echo, env, setenv, unsetenv, exit, clear**.
 * It keeps track of the environment.
-* Manages the path, oldpwd, shlvl environment variables.
+* Manages the path, pwd, oldpwd, shlvl, and shell environment variables.
 * Handles errors gracefully.
 * Handles Ctrl+C to give back a fresh prompt after you've typed a bunch of stuff that you want to discard.
 * Handles multiple command execution when separated with ';'.
@@ -15,16 +15,14 @@ It does quite a lot actually! Well beyond just lunching programs with execve()!.
 
 That actually doesn't sound like that much...
 
-Well, You'll have a pretty difficult time getting it to crash, if that's what you're trying to do. Go ahead and try it out!
+Well, you'll have a pretty difficult time getting it to crash, if that's what you're trying to do. Go ahead and try it out!
 
-How to use:
+How to run **meh$h**:
 ```
 git clone https://github.com/brianbauer42/mehShell.git
 cd mehShell
 make
 ./minishell
-???
-profit!
 ```
 **Despite the name, I'm proud of my stalwart *meh*$hell and looking forward to improving it.**
 
