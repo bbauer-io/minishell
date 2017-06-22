@@ -4,7 +4,7 @@ A Unix command interpreter written in C. It does everything you would want from 
 
 WELL, THEN! What *does* it do?
 
-It does quite a lot actually! Well beyond just lunching programs with execve()!.
+It does quite a lot actually! Beyond just lunching programs with execve()!.
 * Has useful builtin functions **cd, echo, env, setenv, unsetenv, exit, clear**.
 * It keeps track of the environment.
 * Manages the path, pwd, oldpwd, shlvl, and shell environment variables.
