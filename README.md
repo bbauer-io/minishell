@@ -1,6 +1,6 @@
 # meh$h>
 
-A Unix command interpreter. It does everything you would want from a command interpreter, so long as you don't want pipes, redirections, auto-completion, or command history. (That's all coming up in version 2: a fully immersive shell simulator harnessing the full power of termcaps that's so real you'll forget you've left the comfort of zsh!).
+A Unix command interpreter written in C. It does everything you would want from a command interpreter, so long as you don't want pipes, redirections, auto-completion, or command history. (That's all coming up in version 2: a fully immersive shell simulator harnessing the full power of termcaps that's so real you'll forget you've left the comfort of zsh!).
 
 WELL, THEN! What *does* it do?
 
