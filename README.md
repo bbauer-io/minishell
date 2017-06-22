@@ -5,7 +5,7 @@ A Unix command interpreter. It does everything you would want from a command int
 WELL, THEN! What *does* it do?
 
 It does quite a lot actually! Well beyond just lunching programs with execve()!.
-* Has useful builtin functions **cd, echo, env, setenv, unsetenv, exit, clear**.
+* Has full featured builtin functions **cd, echo, env, setenv, unsetenv, exit, clear**.
 * It keeps track of the environment.
 * Manages the path, oldpwd, shlvl environment variables.
 * Handles errors gracefully.
