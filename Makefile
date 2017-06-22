@@ -6,16 +6,16 @@
 #    By: bbauer <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/03/21 18:44:49 by bbauer            #+#    #+#              #
-#    Updated: 2017/06/22 15:42:27 by bbauer           ###   ########.fr        #
+#    Updated: 2017/06/22 15:51:08 by bbauer           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME = minishell
+NAME = mehSh
 CC = gcc
 LIBFT = ./libft/libft.a
 CFLAGS = -Wall -Wextra -Werror
-DEBUGFLAGS =  -fsanitize=address -g -o minishell_debug
-LEAKCHECKFLAGS = -g -o minishell_leakcheck
+DEBUGFLAGS =  -fsanitize=address -g -o mehSh_debug
+LEAKCHECKFLAGS = -g -o mehSh_leakcheck
 OBJDIR = ./obj/
 SRCDIR = ./src/
 LIBDIR = ./libft/
@@ -52,18 +52,18 @@ OBJ = $(addprefix $(OBJDIR),$(SRCF:.c=.o))
 all: $(LIBFT) $(NAME)
 
 $(NAME): $(LIBFT)
-	@echo "Compiling minishell"
+	@echo "Compiling mehSh"
 	@$(CC) $(CFLAGS) -c -I$(INCDIR) $(SRC)
 	@mkdir -p $(OBJDIR)
 	@mv $(SRCF:.c=.o) $(OBJDIR)
 	@$(CC) $(CFLAGS) -I$(INCDIR) -I$(LIBDIR) $(OBJ) $(LIBFT) -o $@
-	@echo "minishell: SUCCESS!"
+	@echo "mehSh: SUCCESS!"
 
 $(LIBFT):
 	@make -C $(LIBDIR) all
 
 clean:
-	@echo "Cleaning minishell"
+	@echo "Cleaning mehSh"
 	@rm -rf $(OBJDIR)
 	@rm -rf minishell_debug
 	@rm -rf minishell_debug.dSYM
@@ -72,16 +72,16 @@ clean:
 	@make -C $(LIBDIR) clean
 
 fclean: clean
-	@echo "FCleaning minishell"
+	@echo "FCleaning mehSh"
 	@rm -rf $(NAME)
 	@make -C $(LIBDIR) fclean
 
 re: fclean all
 
 debug: $(LIBFT)
-	@echo "Compiling minishel with debugging options"
+	@echo "Compiling mehSh with debugging options"
 	$(CC) $(CFLAGS) $(SRC) $(LIBFT) -I$(INCDIR) $(DEBUGFLAGS)
 
 leakcheck: $(LIBFT)
-	@echo "Compiling for leak checks with valgrind"
+	@echo "Compiling mehSh for leak checks with valgrind"
 	$(CC) $(CFLAGS) $(SRC) $(LIBFT) -I$(INCDIR) $(LEAKCHECKFLAGS)
